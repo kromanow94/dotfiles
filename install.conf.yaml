@@ -1,0 +1,13 @@
+- clean: ['~']
+
+- shell:
+  - [sleep 0, Installing krzysztofromanowski94's dotfiles]
+  -
+    command: [git pull, Updating dotfiles]
+    stdout: true
+    stderr: true
+  -
+    command: [git submodule update --init --recursive, Installing submodules]
+    stdout: true
+    stderr: true
+
