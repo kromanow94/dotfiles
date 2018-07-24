@@ -1,0 +1,72 @@
+---
+- name: install tmux dependencies
+  hosts: localhost
+  become: yes
+  tasks:
+    - name: install ncurses (Archlinux)
+      package:
+        name: ncurses
+        state: present
+      when: ansible_distribution == 'Archlinux'
+
+    - name: install ncurses (CentOS || RHEL)
+      package:
+        name: ncurses-dev
+        state: present
+      when: >
+        ansible_distribution == 'CentOS' or 
+        ansible_distribution == 'Red Hat Enterprise Linux'
+
+    - name: install libevent (Archlinux)
+      package:
+        name: libevent
+        state: present
+      when: ansible_distribution == 'Archlinux'
+
+    - name: install libevent (CentOS || RHEL)
+      package:
+        name: libevent-dev
+        state: present
+      when: >
+        ansible_distribution == 'CentOS' or 
+        ansible_distribution == 'Red Hat Enterprise Linux'
+
+    - name: install build dependencies
+      package:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - automake
+        - autoconf
+        - autogen
+        - gcc
+
+- name: install tmux
+  hosts: localhost
+  tasks:
+    - name: git clone tmux repository
+      git:
+        repo: 'https://github.com/tmux/tmux.git'
+        dest: ../tmux/repository
+
+    - name: autogen
+      command: ./autogen.sh
+      args:
+        chdir: ../tmux/repository
+
+    - name: configure
+      command: ./configure
+      args:
+        chdir: ../tmux/repository
+
+    - name: make
+      command: make
+      args:
+        chdir: ../tmux/repository
+
+    - name: make install
+      become: yes
+      command: make install
+      args:
+        chdir: ../tmux/repository
+
