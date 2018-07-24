@@ -10,4 +10,15 @@
     command: [git submodule update --init --recursive, Installing submodules]
     stdout: true
     stderr: true
+  -
+    command: [./scripts/get-completion-files.sh, Downloading bash-completion files]
+    stdout: true
+    stderr: true
 
+- link:
+    ~/.bash_completion:
+      force: true
+      path: bash-completion/bash_completion
+    ~/.bash_completion.d:
+      force: true
+      path: bash-completion/bash_completion.d
