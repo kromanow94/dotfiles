@@ -4,12 +4,14 @@ set -e
 DOTFILES_DIR=$(git rev-parse --show-toplevel)
 OS_RELEASE=$(grep --no-filename ^NAME /etc/*-release | awk -F '[=]' '/^NAME=/ { print $2 }')
 
-# install python-pip for running OS
+# install dependencies for running OS
 if [[ "${OS_RELEASE}" == "Arch Linux" ]]; then
-  sudo pacman -S --noconfirm python-pip
+  sudo pacman -S --noconfirm python-pip ansible
 elif [[ "${OS_RELEASE}" == "Fedora" ]]; then
-  sudo dnf install -y python-pip
+  sudo dnf install -y python-pip python2-dnf ansible
 fi
+
+ansible-playbook ./playbooks/install-tmux.yml -v
 
 # create virtualenv so installation won't affect system configuration
 pip install --user virtualenv
@@ -17,10 +19,8 @@ pip install --user virtualenv
 
 cd dotenv
 . bin/activate
-pip install ansible
-ansible-playbook ../playbooks/install-tmux.yml -v
-
-
+# tmux installation were moved out of virtualenv.
+# Leaving it for possible future installs.
 deactivate
 cd -
 

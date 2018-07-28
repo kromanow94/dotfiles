@@ -3,33 +3,36 @@
   hosts: localhost
   become: yes
   tasks:
-    - name: install ncurses (Archlinux)
+    - name: install tmux dependencies (CentOS || RHEL)
       package:
-        name: ncurses
-        state: present
-      when: ansible_distribution == 'Archlinux'
-
-    - name: install ncurses (CentOS || RHEL)
-      package:
-        name: ncurses-dev
-        state: present
+        name: "{{ item }}"
+        state: latest
+      with_items:
+        - ncurses-dev
+        - libevent-dev
       when: >
-        ansible_distribution == 'CentOS' or 
+        ansible_distribution == 'CentOS' or
         ansible_distribution == 'Red Hat Enterprise Linux'
 
-    - name: install libevent (Archlinux)
-      package:
-        name: libevent
-        state: present
-      when: ansible_distribution == 'Archlinux'
 
-    - name: install libevent (CentOS || RHEL)
+    - name: install tmux dependencies (Fedora)
       package:
-        name: libevent-dev
-        state: present
+        name: "{{ item }}"
+        state: latest
+      with_items:
+        - ncurses-devel
+        - libevent-devel
       when: >
-        ansible_distribution == 'CentOS' or 
-        ansible_distribution == 'Red Hat Enterprise Linux'
+        ansible_distribution == 'Fedora'
+
+    - name: install tmux dependencies (Archlinux)
+      package:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - ncurses
+        - libevent
+      when: ansible_distribution == 'Archlinux'
 
     - name: install build dependencies
       package:
