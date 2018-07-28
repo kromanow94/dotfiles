@@ -1,7 +1,7 @@
 - clean: ['~']
 
 - shell:
-  - [sleep 0, Installing krzysztofromanowski94's dotfiles]
+  - [sleep 0, Installing krzysztofromanowski94's dev machine dotfiles]
   -
     command: [git pull, Updating dotfiles]
     stdout: true
@@ -14,6 +14,7 @@
     command: [./scripts/get-completion-files.sh, Downloading bash-completion files]
     stdout: true
     stderr: true
+  - command: [./scripts/prepare-dev-machine.sh, Configuring development machine]
 
 - link:
     ~/.bash_completion:

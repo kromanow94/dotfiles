@@ -1,10 +1,21 @@
 #!/usr/bin/env bash
-
 set -e
 
-CONFIG="install.conf.yaml"
-DOTBOT_DIR="tools/dotbot"
+if [[ "${#}" -ne "1"  ]]; then
+    echo "  This script takes one argument:"
+    echo "    - install configuration file"
+    echo "    - directory with configuration files"
+    echo
+    exit 1
+fi
 
+if [[ -f "${1}" ]]; then
+    CONFIGS=(${1})
+elif [[ -d "${1}" ]];then
+    CONFIGS=($(find $1 -type f | tr '\n' ' '))
+fi
+
+DOTBOT_DIR="tools/dotbot"
 DOTBOT_BIN="bin/dotbot"
 BASEDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
@@ -12,4 +23,7 @@ cd "${BASEDIR}"
 git -C "${DOTBOT_DIR}" submodule sync --quiet --recursive
 git submodule update --init --recursive "${DOTBOT_DIR}"
 
-"${BASEDIR}/${DOTBOT_DIR}/${DOTBOT_BIN}" -d "${BASEDIR}" -c "${CONFIG}" "${@}"
+for config in ${CONFIGS[*]}; do
+    "${BASEDIR}/${DOTBOT_DIR}/${DOTBOT_BIN}" -d "${BASEDIR}" -c "${config}" -v
+done
+
