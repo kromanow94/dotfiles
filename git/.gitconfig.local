@@ -1,0 +1,6 @@
+# vim: set ft=gitconfig:
+# .gitconfig.local
+
+[user]
+	name = Krzysztof Romanowski
+    email = krzysztof.romanowski94@gmail.com

@@ -3,23 +3,6 @@
 - shell:
   - [sleep 0, Installing krzysztofromanowski94's dev machine dotfiles]
   -
-    command: [git pull, Updating dotfiles]
+    command: [./scripts/prepare-dev-machine.sh, Configuring development machine]
     stdout: true
     stderr: true
-  -
-    command: [git submodule update --init --recursive, Installing submodules]
-    stdout: true
-    stderr: true
-  -
-    command: [./scripts/get-completion-files.sh, Downloading bash-completion files]
-    stdout: true
-    stderr: true
-  - command: [./scripts/prepare-dev-machine.sh, Configuring development machine]
-
-- link:
-    ~/.bash_completion:
-      force: true
-      path: bash-completion/bash_completion
-    ~/.bash_completion.d:
-      force: true
-      path: bash-completion/bash_completion.d

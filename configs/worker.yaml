@@ -22,3 +22,10 @@
     ~/.bash_completion.d:
       force: true
       path: bash-completion/bash_completion.d
+    ~/.gitconfig:
+      force: true
+      path: git/.gitconfig
+    ~/.gitconfig.local: git/.gitconfig.local
+      force: true
+      path: git/.gitconfig.local
+
