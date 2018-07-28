@@ -1,0 +1,12 @@
+---
+- name: install vagrant
+  hosts: localhost
+  become: yes
+  tasks:
+    - name: install vagrant
+      package:
+        name: vagrant
+        state: present
+
+    - name: install vagrant libvirt plugin
+      command: vagrant plugin install vagrant-libvirt
