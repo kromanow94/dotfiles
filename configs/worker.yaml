@@ -25,7 +25,7 @@
     ~/.gitconfig:
       force: true
       path: git/.gitconfig
-    ~/.gitconfig.local: git/.gitconfig.local
+    ~/.gitconfig.local:
       force: true
       path: git/.gitconfig.local
 

@@ -7,7 +7,11 @@ OS_RELEASE=$(grep --no-filename ^NAME /etc/*-release | awk -F '[=]' '/^NAME=/ { 
 # install dependencies for running OS
 if [[ "${OS_RELEASE}" == "Arch Linux" ]]; then
   sudo pacman -S --noconfirm python-pip ansible
+
 elif [[ "${OS_RELEASE}" == "Fedora" ]]; then
+  sudo dnf install -y python-pip python2-dnf ansible
+
+elif [[ "${OS_RELEASE}" == "CentOS Linux" ]]; then
   sudo dnf install -y python-pip python2-dnf ansible
 fi
 
@@ -19,7 +23,7 @@ pip install --user virtualenv
 
 cd dotenv
 . bin/activate
-# tmux installation were moved out of virtualenv.
+# tmux installation was moved out of virtualenv.
 # Leaving it for possible future installs.
 deactivate
 cd -
