@@ -16,6 +16,12 @@
     stderr: true
 
 - link:
+    ~/.vim:
+      force: true
+      path: vim/conf/
+    ~/.vimrc:
+      force: true
+      path: vim/.vimrc
     ~/.bash_completion:
       force: true
       path: bash-completion/bash_completion

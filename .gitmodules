@@ -1,3 +1,6 @@
 [submodule "tools/dotbot"]
 	path = tools/dotbot
 	url = https://github.com/anishathalye/dotbot.git
+[submodule "tmux/tmp"]
+	path = tmux/tmp
+	url = https://github.com/tmux-plugins/tpm.git
