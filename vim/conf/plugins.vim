@@ -15,7 +15,7 @@ call plug#begin('~/.vim/plugged')
   "" Plugin: Sherlock {{{
     " Add completion for command line mode ':' after a '/', and in command line mode '/' and '?'.
     " Using <C-Tab>, <C-S-Tab>
-    Plug 'sherlock.vim'
+    Plug 'vim-scripts/sherlock.vim'
   "" }}}
 
   "" Plugin: Vim Startify {{{
