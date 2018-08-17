@@ -6,7 +6,7 @@ OS_RELEASE=$(grep --no-filename ^NAME /etc/*-release | awk -F '[="]' '/^NAME=/ {
 
 # install dependencies for running OS
 if [ "${OS_RELEASE}" == "Arch Linux" ]; then
-  sudo pacman -S --noconfirm python-pip ansible libvirt qemu vagrant gcc make bridge-utils dmidecode dnsmasq ebtables
+  sudo pacman -S --noconfirm python-pip ansible libvirt qemu vagrant gcc make bridge-utils dmidecode dnsmasq ebtables pkg-config
   sudo systemctl enable libvirtd.service
   sudo systemctl start libvirtd.service
   vagrant plugin install pkg-config
