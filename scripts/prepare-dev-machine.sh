@@ -6,7 +6,11 @@ OS_RELEASE=$(grep --no-filename ^NAME /etc/*-release | awk -F '[="]' '/^NAME=/ {
 
 # install dependencies for running OS
 if [ "${OS_RELEASE}" == "Arch Linux" ]; then
-  sudo pacman -S --noconfirm python-pip ansible
+  sudo pacman -S --noconfirm python-pip ansible libvirt qemu vagrant gcc make bridge-utils dnsmasq ebtables libxml++
+  sudo systemctl enable libvirtd.service libvirt-guests.service
+  sudo systemctl start libvirtd.service libvirt-guests.service
+  vagrant plugin install pkg-config
+  vagrant plugin install vagrant-libvirt
 
 elif [ "${OS_RELEASE}" == "Fedora" ]; then
   sudo dnf install -y python-pip python2-dnf ansible
