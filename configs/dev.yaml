@@ -6,3 +6,15 @@
     command: [./scripts/prepare-dev-machine.sh, Configuring development machine]
     stdout: true
     stderr: true
+- link:
+    ~/.tmux:
+      force: true
+      path: tmux
+  
+- shell:
+  -
+    command: [~/.tmux/tmp/scripts/install_plugins.sh, Installing TMUX plugins]
+    stdout: true
+    stderr: true
+
+    
