@@ -1,0 +1,99 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# All Vagrant configuration is done below. The "2" in Vagrant.configure
+# configures the configuration version (we support older styles for
+# backwards compatibility). Please don't change it unless you know what
+# you're doing.
+Vagrant.configure("2") do |config|
+  # The most common configuration options are documented and commented below.
+  # For a complete reference, please see the online documentation at
+  # https://docs.vagrantup.com.
+
+  # Every Vagrant development environment requires a box. You can search for
+  # boxes at https://vagrantcloud.com/search.
+  config.vm.box = "archlinux/archlinux"
+
+  config.vm.define :myarch do |node|
+    node.vm.hostname = "myarch"
+    node.vm.network :private_network,
+      :libvirt__network_name => "myarch",
+      :ip => "10.69.0.2"
+
+    node.ssh.forward_x11 = true
+
+    node.vm.provider :libvirt do |libvirt|
+      libvirt.cpus = 4
+      libvirt.memory = 5120
+      libvirt.storage :file,
+        :device => 'vdb',
+        :allow_existing => true,
+        :size => '10G',
+        :path => 'arch-persistent.qcow2'
+    end
+    node.vm.provision "shell", inline: <<-SHELL
+      #!/bin/bash
+      set -xe
+
+      # check if partition table exists
+      if [ "$(fdisk -l /dev/vdb | grep -o 'Disklabel')" != "Disklabel" ]; then
+        echo "label: gpt
+        label-id: 4B5FBF4E-45FB-BE4B-AE04-4331FFC8483B
+        device: /dev/vdb
+        unit: sectors
+        first-lba: 2048
+        last-lba: 20971486
+        
+        /dev/vdb1 : start=        2048, size=     4194304, type=0FC63DAF-8483-4772-8E79-3D69D8477DE4, uuid=B332D853-6666-F547-984E-95C4268582D7
+        /dev/vdb2 : start=     4196352, size=     4194304, type=0FC63DAF-8483-4772-8E79-3D69D8477DE4, uuid=7D94DC41-A36E-5942-BB1B-5154F286678F
+        /dev/vdb3 : start=     8390656, size=      409600, type=0FC63DAF-8483-4772-8E79-3D69D8477DE4, uuid=33283846-0555-5C4D-94CF-88EF7D3FD67C
+        /dev/vdb4 : start=     8800256, size=      409600, type=0FC63DAF-8483-4772-8E79-3D69D8477DE4, uuid=E437C552-7104-4E44-9E33-D54DBC3A64A4
+        /dev/vdb5 : start=     9209856, size=      409600, type=0FC63DAF-8483-4772-8E79-3D69D8477DE4, uuid=69760990-96E2-8C4E-855B-7187962F150C
+        /dev/vdb6 : start=     9619456, size=      409600, type=0FC63DAF-8483-4772-8E79-3D69D8477DE4, uuid=FAE238A0-2EE0-414D-A22B-D47AEB9F1E21
+        /dev/vdb7 : start=    10029056, size=      409600, type=0FC63DAF-8483-4772-8E79-3D69D8477DE4, uuid=FC7DDDAD-B60C-8F43-B923-02F450A2F5D4
+        /dev/vdb8 : start=    10438656, size=    10532831, type=0FC63DAF-8483-4772-8E79-3D69D8477DE4, uuid=D1038918-0A71-9041-81E7-893715D26BC6
+        " | sfdisk /dev/vdb
+        mkfs.ext4 /dev/vdb1 # .cache
+        mkfs.ext4 /dev/vdb2 # .mozilla
+        mkfs.ext4 /dev/vdb3 # .ssh
+        mkfs.ext4 /dev/vdb4
+        mkfs.ext4 /dev/vdb5
+        mkfs.ext4 /dev/vdb6
+        mkfs.ext4 /dev/vdb7
+        mkfs.ext4 /dev/vdb8 # Repos
+      fi
+      echo "UUID=$(blkid /dev/vdb1 | awk -F'\"' '{ print $2 }') /home/vagrant/.cache ext4 defaults 0 0" >> /etc/fstab
+      echo "UUID=$(blkid /dev/vdb2 | awk -F'\"' '{ print $2 }') /home/vagrant/.mozilla ext4 defaults 0 0" >> /etc/fstab
+      echo "UUID=$(blkid /dev/vdb3 | awk -F'\"' '{ print $2 }') /home/vagrant/.ssh ext4 defaults 0 0" >> /etc/fstab
+      echo "UUID=$(blkid /dev/vdb8 | awk -F'\"' '{ print $2 }') /home/vagrant/Repos ext4 defaults 0 0" >> /etc/fstab
+
+      # [.cache]
+      mkdir /home/vagrant/.cache
+      mount /dev/vdb1 /home/vagrant/.cache
+      chown -R vagrant:vagrant /home/vagrant/.cache
+
+      # [.mozilla]
+      mkdir /home/vagrant/.mozilla
+      mount /dev/vdb2 /home/vagrant/.mozilla
+      chown -R vagrant:vagrant /home/vagrant/.mozilla
+
+      # [.ssh]
+      mkdir /tmp/sshtemp
+      mount /dev/vdb3 /tmp/sshtemp
+      cp -r /home/vagrant/.ssh/* /tmp/sshtemp/
+      chown -R vagrant:vagrant /tmp/sshtemp
+      chmod 700 /tmp/sshtemp
+
+      # [.Repos]
+      mkdir /home/vagrant/Repos
+      mount /dev/vdb8 /home/vagrant/Repos
+      chown -R vagrant:vagrant /home/vagrant/Repos
+
+      pacman -Syu --noconfirm 
+      pacman -S --noconfirm plasma-desktop firefox xorg xorg-xauth xorg-xhost git wget curl
+      sed 's/^#X11Forwarding no/X11Forwarding yes/' -i /etc/ssh/sshd_config
+      # shutdown -r 1 'will reboot in one minute'
+    SHELL
+  end
+
+end

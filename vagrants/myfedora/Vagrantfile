@@ -1,0 +1,52 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+
+  config.vm.box = "fedora/28-cloud-base"
+  config.vm.hostname = "worker"
+  config.vm.provider :libvirt do |libvirt|
+    libvirt.cpus = 4
+    libvirt.memory = 5120
+    libvirt.storage :file,
+      :device => 'vdb',
+      :allow_existing => true,
+      :size => '2G',
+      :path => 'worker-persistent.qcow2'
+  end
+
+  config.ssh.forward_x11 = true
+
+  config.vm.provision "shell", inline: <<-SHELL
+    #!/bin/bash
+    set -xe
+
+    # check if partition table exists
+    if [[ "$(fdisk -l /dev/vdb | grep -o 'Disklabel')" != "Disklabel" ]]; then
+      echo "label: dos
+      label-id: 0x5e23b31c
+      device: /dev/vdb
+      unit: sectors
+
+      /dev/vdb1 : start=        2048, size=     2097152, type=83
+      /dev/vdb2 : start=     2099200, size=     2095104, type=83" | sfdisk /dev/vdb
+      mkfs.ext4 /dev/vdb1
+      mkfs.ext4 /dev/vdb2
+    fi
+    mkdir /home/vagrant/.cache
+    mkdir /home/vagrant/.mozilla
+    echo "UUID=$(blkid /dev/vdb1 | awk -F'\"' '{ print $2 }') /home/vagrant/.cache ext4 defaults 0 0" >> /etc/fstab
+    echo "UUID=$(blkid /dev/vdb2 | awk -F'\"' '{ print $2 }') /home/vagrant/.mozilla ext4 defaults 0 0" >> /etc/fstab
+    mount /dev/vdb1 /home/vagrant/.cache
+    mount /dev/vdb2 /home/vagrant/.mozilla
+    chown -R vagrant:vagrant /home/vagrant/.cache
+    chown -R vagrant:vagrant /home/vagrant/.mozilla
+    dnf update -y
+    dnf upgrade -y
+    dnf install -y plasma-desktop firefox xorg-x11-xauth bash-completion git wget curl
+    echo "12qwaszx" | passwd -f root --stdin
+    shutdown -r 1 'will reboot in one minute'
+  SHELL
+
+end
+
