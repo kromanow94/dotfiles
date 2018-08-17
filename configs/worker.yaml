@@ -35,3 +35,12 @@
       force: true
       path: git/.gitconfig.local
 
+- shell:
+  -
+    command: [mkdir ~/.vim/autoload]
+    stdout: true
+    stderr: true
+  -
+    command: ["wget https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim -O ~/.vim/autoload/plug.vim -o /dev/null", get autoload/plug.vim]
+    stdout: true
+    stderr: true
