@@ -1,11 +1,5 @@
 call plug#begin('~/.vim/plugged')
 
-""" Vim Functionality {{{
-  "" Plugin: L9 {{{
-    " Provide some utility functions and commands for programming in Vim
-    Plug 'L9'
-  "" }}}
-
 """ Integration {{{
   "" Plugin: Vim Git {{{
     " For syntax highlighting and other Git niceties
