@@ -43,6 +43,8 @@
         - autoconf
         - autogen
         - gcc
+        - pkg-config
+        - make
 
 - name: install tmux
   hosts: localhost
