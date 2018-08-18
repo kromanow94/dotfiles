@@ -1,0 +1,36 @@
+---
+- name: install packages for worker machine
+  hosts: localhost
+  become: yes
+  tasks:
+    - name: common packages
+      package:
+        name: "{{ item }}"
+        state: present
+      with_items:
+        - vim
+        - bash-completion
+
+    - name: Archlinux
+      package:
+        name: "{{ item }}"
+        state: present
+      with_items:
+      when: ansible_distribution == 'Archlinux'
+
+    - name: Fedora
+      package:
+        name: "{{ item }}"
+        state: present
+      with_items:
+      when: ansible_distribution == 'Fedora'
+
+    - name: CentOS || RHEL
+      package:
+        name: "{{ item }}"
+        state: present
+      with_items:
+      when: >
+        ansible_distribution == 'CentOS' or
+        ansible_distribution == 'Red Hat Enterprise Linux'
+
