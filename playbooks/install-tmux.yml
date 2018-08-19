@@ -49,11 +49,6 @@
 - name: install tmux
   hosts: localhost
   tasks:
-    - name: git clone tmux repository
-      git:
-        repo: 'https://github.com/tmux/tmux.git'
-        dest: ../tmux/repository
-
     - name: autogen
       command: ./autogen.sh
       args:
