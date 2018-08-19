@@ -23,8 +23,11 @@
       path: tmux/tmux.conf
 
 - shell:
+  - tmux start-server
+  - tmux new-session -d
   -
-    command: [~/.tmux/tpm/scripts/install_plugins.sh, Installing TMUX plugins]
+    command: [~/.tmux/plugins/tpm/scripts/install_plugins.sh, Installing TMUX plugins]
     stdout: true
     stderr: true
+  - tmux kill-server
 
