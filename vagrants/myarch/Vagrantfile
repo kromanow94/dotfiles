@@ -91,7 +91,7 @@ Vagrant.configure("2") do |config|
       chown -R vagrant:vagrant /home/vagrant/Repos
 
       pacman -Syu --noconfirm 
-      pacman -S --noconfirm python wget plasma-desktop firefox xorg xorg-xauth xorg-xhost git wget curl
+      pacman -S --noconfirm python wget git firefox xorg xorg-xauth xorg-xhost curl
       sed 's/^#X11Forwarding no/X11Forwarding yes/' -i /etc/ssh/sshd_config
       systemctl restart sshd
     SHELL
