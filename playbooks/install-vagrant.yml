@@ -37,3 +37,17 @@
           vagrant plugin install vagrant-libvirt
 
 
+- name: add user to libvirt groups
+  hosts: localhost
+  become: yes
+  tasks:
+    - name: ensure libvirt groups exists
+      group:
+        name: libvirt
+        state: present
+
+    - name: add current user to libvirt group
+      user:
+        name: "{{ ansible_user_id }}"
+        append: yes
+        groups: libvirt
