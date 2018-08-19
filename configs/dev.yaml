@@ -18,6 +18,10 @@
     ~/.tmux:
       force: true
       path: tmux
+    ~/.tmux.conf:
+      force: true
+      path: tmux/tmux.conf
+
   
 - shell:
   -
