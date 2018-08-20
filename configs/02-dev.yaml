@@ -21,7 +21,7 @@
 
 - shell:
   -
-    command: [ansible-playbook ./playbooks/install-tmux.yml -v, Installing TMUX]
+    command: [ansible-playbook ./playbooks/install-tmux.yml, Installing TMUX]
     stdout: true
     stderr: true
   - tmux start-server
