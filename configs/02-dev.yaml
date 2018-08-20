@@ -10,10 +10,7 @@
     command: [git submodule update --init --recursive, Installing submodules]
     stdout: true
     stderr: true
-  -
-    command: [./scripts/prepare-dev-machine.sh, Configuring development machine]
-    stdout: true
-    stderr: true
+
 - link:
     ~/.tmux:
       force: true
@@ -23,6 +20,10 @@
       path: tmux/tmux.conf
 
 - shell:
+  -
+    command: [ansible-playbook ./playbooks/install-tmux.yml -v, Installing TMUX]
+    stdout: true
+    stderr: true
   - tmux start-server
   - tmux new-session -d
   -

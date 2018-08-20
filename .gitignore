@@ -3,3 +3,6 @@ lib*
 venv
 dotenv
 **.retry
+vim/conf/.netrwhist
+vim/conf/autoload
+vim/conf/cache
