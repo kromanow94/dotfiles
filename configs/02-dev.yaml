@@ -31,4 +31,7 @@
     stdout: true
     stderr: true
   - tmux kill-server
-
+  -
+    command: [ansible-playbook ./playbooks/install-vagrant.yml, Installing TMUX]
+    stdout: true
+    stderr: true
