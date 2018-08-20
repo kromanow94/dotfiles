@@ -6,3 +6,6 @@ dotenv
 vim/conf/.netrwhist
 vim/conf/autoload
 vim/conf/cache
+tmux/plugins
+vim/conf/ftplugin
+vim/conf/plugged
