@@ -277,6 +277,30 @@ call plug#begin('~/.vim/plugged')
   "" }}}
 """ }}}
 
+""" Interface {{{
+  "" Plugin: Airline {{{
+    " Use statusline more effective
+    Plug 'vim-airline/vim-airline'
+    Plug 'vim-airline/vim-airline-themes'
+    if exists('$DISPLAY')
+      " Automatic population of the g:airline_symbols dictionary with
+      " powerline symbols
+      let g:airline_powerline_fonts=1
+    endif
+    " Specify theme for airline
+    let g:airline_theme='tomorrow'
+    let g:airline#extensions#tabline#enabled=1
+    let g:airline#extensions#tabline#left_sep=''
+    let g:airline#extensions#tabline#left_alt_sep='|'
+    " Customize a left side of airline
+    " let g:airline_section_b='%{strftime('%H:%M:%S')}'
+    " Customize a right side of airline
+    let g:airline_section_y='[%{&fileformat}/%{strlen(&fenc)?&fenc:&enc}]'
+    " Use airline's showmode
+    set noshowmode
+  "" }}}
+""" }}}
+
 """ Themes {{{
   "" Theme: Gruvbox {{{
     Plug 'morhetz/gruvbox'
@@ -294,9 +318,10 @@ call plug#begin('~/.vim/plugged')
   "" }}}
 """ }}}
 
+
+
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries'  }
 
 Plug 'nsf/gocode', { 'rtp': 'vim', 'do': '~/.vim/plugged/gocode/vim/symlink.sh'  }
-
 
 call plug#end()

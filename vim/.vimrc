@@ -14,3 +14,8 @@ endif
 if filereadable(expand("\~/.vim/plugins.vim"))
   source \~/.vim/plugins.vim
 endif
+
+""" General Configuration - Visual
+if filereadable(expand("\~/.vim/visual.vim"))
+  source \~/.vim/visual.vim
+endif

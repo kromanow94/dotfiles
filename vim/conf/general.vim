@@ -106,3 +106,7 @@ set modelines=4
   " Do smart autoindenting when starting a new line
   set smartindent
 """ }}}
+
+""" Visual {{{
+  " Enable gruvbox
+""" }}}
