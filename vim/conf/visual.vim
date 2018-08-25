@@ -65,5 +65,5 @@ endif
   " Set to 'light' to use colors that look good on a light background
   set background=dark
   " Set colorscheme
-  colorscheme gruvbox
+  silent! colorscheme gruvbox
 """ }}}
