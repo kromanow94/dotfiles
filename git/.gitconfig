@@ -52,14 +52,15 @@
             -%C(yellow)%d%Creset %s %Cgreen(%ar) %C(bold blue)<%an>%Creset' \
             --abbrev-commit --date=short --date-order -n30
 
+  bra     = branch -vv
+
   unstage = reset HEAD --
   discard = checkout --
-  co      = checkout
+  coh     = checkout HEAD --
   com     = checkout master
 
   amend   = commit --amend
-  ca      = commit --amend
-  cm      = commit -m
+  cos     = commit -s
 
   s       = status --short --branch
   st      = status
