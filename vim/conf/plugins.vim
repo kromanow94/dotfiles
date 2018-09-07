@@ -48,6 +48,17 @@ call plug#begin('~/.vim/plugged')
     let g:gundo_auto_preview=1
   "" }}}
 
+  "" Plugin: Auto Pairs {{{
+    " For intensely orgasmic commenting
+    Plug 'jiangmiao/auto-pairs'
+    " Shortcut for fast wrapping the word
+    let g:AutoPairsShortcutFastWrap='<C-e>'
+    " Enable FlyMode
+    let g:AutoPairsFlyMode=1
+    " Insert the key at the Fly Mode jumped postion
+    let g:AutoPairsShortcutBackInsert='<C-b>'
+  "" }}}
+
   "" Plugin: Tagbar {{{
     " Easy way to browse the tags
     Plug 'majutsushi/tagbar'
