@@ -48,6 +48,11 @@ call plug#begin('~/.vim/plugged')
     let g:gundo_auto_preview=1
   "" }}}
 
+  "" Plugin: Vim Fugitive {{{
+    " The best Git wrapper
+    Plug 'tpope/vim-fugitive'
+  "" }}}
+
   "" Plugin: Auto Pairs {{{
     " For intensely orgasmic commenting
     Plug 'jiangmiao/auto-pairs'
