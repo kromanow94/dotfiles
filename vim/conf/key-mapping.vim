@@ -29,6 +29,9 @@ nnoremap <silent> <Leader>/ :nohlsearch<CR>
 nnoremap <C-k><C-k> :<c-u>execute 'move -1-'. v:count1<cr>
 nnoremap <C-j><C-j> :<c-u>execute 'move +'. v:count1<cr>
 
+" Print absolute path of current file
+nnoremap <C-p> :echo expand('%:p')<cr>
+
 """ Hex Editor {{{
   " Map HexEditToggle to <F9>
   nnoremap <silent> <F9> :call HexEditToggle()<CR>
