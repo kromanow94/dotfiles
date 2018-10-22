@@ -3,7 +3,7 @@
 
 [include]
   path = ~/.gitconfig.local
-[includeIf "gitdif:~/Repos/work"]
+[includeIf "gitdir:~/Repos/work/"]
   path = ~/.gitconfig.work
 
 [push]
@@ -65,6 +65,8 @@
   s       = status --short --branch
   st      = status
   sta     = status --short --branch --untracked-files=normal
+
+  walk-unstaged = ! git status --short --branch --untracked-files=normal | awk '/M/ { print $2 }' | xargs -L1 vim
 
   tags    = tag -l
 
