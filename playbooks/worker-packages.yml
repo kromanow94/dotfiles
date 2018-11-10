@@ -9,31 +9,6 @@
         state: present
       with_items:
         - vim
+        - vim-nox
         - bash-completion
-
-#    - name: Archlinux
-#      package:
-#        name: "{{ item }}"
-#        state: present
-#      with_items:
-#        - 
-#      when: ansible_distribution == 'Archlinux'
-#
-#    - name: Fedora
-#      package:
-#        name: "{{ item }}"
-#        state: present
-#      with_items:
-#        - 
-#      when: ansible_distribution == 'Fedora'
-#
-#    - name: CentOS || RHEL
-#      package:
-#        name: "{{ item }}"
-#        state: present
-#      with_items:
-#        - 
-#      when: >
-#        ansible_distribution == 'CentOS' or
-#        ansible_distribution == 'Red Hat Enterprise Linux'
 
