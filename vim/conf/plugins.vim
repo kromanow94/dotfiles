@@ -52,6 +52,35 @@ call plug#begin('~/.vim/plugged')
     let g:gundo_auto_preview=1
   "" }}}
 
+  "" Plugin: supertab {{{
+    Plug 'ervandew/supertab'
+    let g:SuperTabClosePreviewOnPopupClose = 1
+  "" }}}
+
+  "" Plugin: neocomplete {{{
+    Plug 'Shougo/neocomplete'
+    " Disable AutoComplPop.
+    let g:acp_enableAtStartup = 0
+    " Enable neocomplete.
+    let g:neocomplete#enable_at_startup = 1
+    " Use smartcase
+    let g:neocomplete#enable_smart_case = 1
+    " Set minimum syntax keyword length.
+    let g:neocomplete#sources#syntax#min_keyword_length = 3
+
+    " Recommended key-mappings.
+    " <CR>: close popup and save indent.
+    inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+    function! s:my_cr_function()
+    	return neocomplete#close_popup() . "\<CR>"
+    endfunction
+    " <TAB>: completion.
+    inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+    " <C-h>, <BS>: close popup and delete backword char.
+    inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+    inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+  "" }}}
+
   "" Plugin: Vim Fugitive {{{
     " The best Git wrapper
     Plug 'tpope/vim-fugitive'
