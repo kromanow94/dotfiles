@@ -41,7 +41,11 @@ call plug#begin('~/.vim/plugged')
     " Set 1 to open the right side instead of the left
     let g:gundo_right=0
     " Disable Gundo entirely if machine not support python
-    if v:version < '703' || !has('python')
+    if has('python')
+      " That's good, use defaults
+    elseif has('python3')
+      let g:gundo_prefer_python3 = 1
+    else
       let g:gundo_disable=1
     endif
     " Rendering diff automatically with cursor move
