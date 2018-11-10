@@ -68,6 +68,10 @@ call plug#begin('~/.vim/plugged')
     " Set minimum syntax keyword length.
     let g:neocomplete#sources#syntax#min_keyword_length = 3
 
+    " Plugin key-mappings.
+    inoremap <expr><C-g>     neocomplete#undo_completion()
+    inoremap <expr><C-l>     neocomplete#complete_common_string()
+    
     " Recommended key-mappings.
     " <CR>: close popup and save indent.
     inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
@@ -79,6 +83,15 @@ call plug#begin('~/.vim/plugged')
     " <C-h>, <BS>: close popup and delete backword char.
     inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
     inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+  "" }}}
+
+  "" Plugin: neosnippet {{{
+    Plug 'Shougo/neosnippet'
+    Plug 'Shougo/neosnippet-snippets'
+    
+    imap <C-k>    <Plug>(neosnippet_expand_or_jump)
+    smap <C-k>    <Plug>(neosnippet_expand_or_jump)
+    xmap <C-k>    <Plug>(neosnippet_expand_target)
   "" }}}
 
   "" Plugin: Vim Fugitive {{{
@@ -102,6 +115,35 @@ call plug#begin('~/.vim/plugged')
     Plug 'majutsushi/tagbar'
     " Map TagbarToggle to <F10>
     nnoremap <silent> <F10> :TagbarToggle<CR>
+
+    " Tagbar config
+    let g:tagbar_type_go = {
+    	\ 'ctagstype' : 'go',
+    	\ 'kinds'     : [
+    		\ 'p:package',
+    		\ 'i:imports:1',
+    		\ 'c:constants',
+    		\ 'v:variables',
+    		\ 't:types',
+    		\ 'n:interfaces',
+    		\ 'w:fields',
+    		\ 'e:embedded',
+    		\ 'm:methods',
+    		\ 'r:constructor',
+    		\ 'f:functions'
+    	\ ],
+    	\ 'sro' : '.',
+    	\ 'kind2scope' : {
+    		\ 't' : 'ctype',
+    		\ 'n' : 'ntype'
+    	\ },
+    	\ 'scope2kind' : {
+    		\ 'ctype' : 't',
+    		\ 'ntype' : 'n'
+    	\ },
+    	\ 'ctagsbin'  : 'gotags',
+    	\ 'ctagsargs' : '-sort -silent'
+    \ }
   "" }}}
 
   "" Plugin: NERDTree {{{
@@ -155,6 +197,17 @@ call plug#begin('~/.vim/plugged')
   "" }}}
 
 """ Programming {{{
+  "" Plugin: vim-go {{{
+    Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries'  }
+    let g:go_list_type = "quickfix"
+    let g:go_fmt_command = "goimports"
+    
+    let g:go_highlight_types = 1
+    let g:go_highlight_fields = 1
+    let g:go_highlight_functions = 1
+    let g:go_highlight_methods = 1
+  "" }}}
+    
   "" Plugin: Vim Polyglot {{{
     " A collection of language packs for Vim
     Plug 'sheerun/vim-polyglot'
@@ -369,7 +422,6 @@ call plug#begin('~/.vim/plugged')
 
 
 
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries'  }
 
 Plug 'nsf/gocode', { 'rtp': 'vim', 'do': '~/.vim/plugged/gocode/vim/symlink.sh'  }
 
