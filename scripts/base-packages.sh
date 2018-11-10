@@ -6,12 +6,14 @@ OS_RELEASE=$(grep --no-filename ^NAME /etc/*-release | awk -F '[="]' '/^NAME=/ {
 
 # install dependencies for running OS
 if [ "${OS_RELEASE}" == "Arch Linux" ]; then
-  sudo pacman -S --noconfirm python python2 python-pip ansible
+  sudo pacman -S --noconfirm python-pip
 
 elif [ "${OS_RELEASE}" == "Fedora" ]; then
-  sudo dnf install -y python python2 python-pip ansible
+  sudo dnf install -y python-pip
 
 elif [ "${OS_RELEASE}" == "CentOS Linux" ]; then
-  sudo dnf install -y python python2 python-pip ansible
-fi
+  sudo dnf install -y python-pip
 
+elif [ "${OS_RELEASE}" == "Ubuntu" ]; then
+  sudo apt-get install -y python-pip
+fi
