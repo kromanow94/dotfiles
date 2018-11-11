@@ -104,8 +104,6 @@ call plug#begin('~/.vim/plugged')
     Plug 'jiangmiao/auto-pairs'
     " Shortcut for fast wrapping the word
     let g:AutoPairsShortcutFastWrap='<C-e>'
-    " Enable FlyMode
-    let g:AutoPairsFlyMode=1
     " Insert the key at the Fly Mode jumped postion
     let g:AutoPairsShortcutBackInsert='<C-b>'
   "" }}}
