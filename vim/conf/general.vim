@@ -29,6 +29,8 @@ set shell=sh
 " Respect modeline in files
 set modeline
 set modelines=4
+" Use relative line numbers
+set relativenumber
 
 """ Auto Commands {{{
   if has("autocmd")
