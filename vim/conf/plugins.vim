@@ -399,6 +399,11 @@ call plug#begin('~/.vim/plugged')
     " Use airline's showmode
     set noshowmode
   "" }}}
+
+  "" Plugin: ZoomWin {{{
+    Plug 'vim-scripts/ZoomWin'
+    nnoremap <silent> <F8> :ZoomWin<CR>
+  "" }}}
 """ }}}
 
 """ Themes {{{
