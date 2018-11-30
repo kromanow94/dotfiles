@@ -10,3 +10,8 @@ echo "Downloading go completion"
 wget https://raw.githubusercontent.com/skelterjohn/go-pkg-complete/master/go-pkg-complete.bash.inc \
   -O bash-completion/bash_completion.d/go -o /dev/null 
 echo "Done"
+
+echo "Downloading docker completion"
+wget https://raw.githubusercontent.com/docker/cli/master/contrib/completion/bash/docker \
+  -O bash-completion/bash_completion.d/docker -o /dev/null 
+echo "Done"
