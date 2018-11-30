@@ -45,6 +45,7 @@
         - gcc
         - pkg-config
         - make
+      when: ansible_distribution != 'Clear Linux OS'
 
 - name: install tmux
   hosts: localhost
@@ -53,20 +54,31 @@
       command: ./autogen.sh
       args:
         chdir: ../tmux/repository
+      when: ansible_distribution != 'Clear Linux OS'
 
     - name: configure
       command: ./configure
       args:
         chdir: ../tmux/repository
+      when: ansible_distribution != 'Clear Linux OS'
 
     - name: make
       command: make
       args:
         chdir: ../tmux/repository
+      when: ansible_distribution != 'Clear Linux OS'
 
     - name: make install
       become: yes
       command: make install
       args:
         chdir: ../tmux/repository
+      when: ansible_distribution != 'Clear Linux OS'
+
+    - name: add bundle
+      swupd:
+        name: tmux
+        state: present
+      become: yes
+      when: ansible_distribution == 'Clear Linux OS'
 
