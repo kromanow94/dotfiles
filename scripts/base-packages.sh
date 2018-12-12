@@ -17,6 +17,6 @@ elif [ "${OS_RELEASE}" == "CentOS Linux" ]; then
 elif [ "${OS_RELEASE}" == "Ubuntu" ]; then
   sudo apt-get install -y python-pip
 elif [ "${OS_RELEASE}" == "Clear Linux OS" ]; then
-  sudo swupd bundle-add tcl-basic tmux python3-basic ansible
+  sudo swupd bundle-add tcl-basic network-basic python3-basic ansible
 fi
 
