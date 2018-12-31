@@ -57,7 +57,6 @@ nnoremap <C-p> :echo expand('%:p')<cr>
 """ Tabs {{{
   nnoremap <silent> <Tab><Tab> :tabnew<CR>
   nnoremap <silent> <Tab>q :tabclose<CR>
-  nnoremap <silent> <Tab>o :tabonly<CR>
   nnoremap <silent> <Tab>s :tabs<CR>
   nnoremap <silent> <Tab>^ :tabfirst<CR>
   nnoremap <silent> <Tab>$ :tablast<CR>
