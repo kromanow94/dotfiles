@@ -15,7 +15,7 @@ elif [ "${OS_RELEASE}" == "CentOS Linux" ]; then
   sudo dnf install -y python-pip
 
 elif [ "${OS_RELEASE}" == "Ubuntu" ]; then
-  sudo apt-get install -y python-pip
+  sudo bash -c "apt-get update && apt-get install -y python-pip ansible"
 elif [ "${OS_RELEASE}" == "Clear Linux OS" ]; then
   sudo swupd bundle-add tcl-basic network-basic python3-basic ansible
 fi
