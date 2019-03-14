@@ -3,7 +3,7 @@
   hosts: localhost
   become: yes
   tasks:
-    - name: install tmux dependencies (CentOS || RHEL)
+    - name: install tmux dependencies (CentOS || RHEL || Ubuntu)
       package:
         name: "{{ item }}"
         state: latest
@@ -12,8 +12,8 @@
         - libevent-dev
       when: >
         ansible_distribution == 'CentOS' or
-        ansible_distribution == 'Red Hat Enterprise Linux'
-
+        ansible_distribution == 'Red Hat Enterprise Linux' or
+        ansible_distribution == 'Ubuntu'
 
     - name: install tmux dependencies (Fedora)
       package:
