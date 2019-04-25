@@ -395,7 +395,7 @@ call plug#begin('~/.vim/plugged')
     " Customize a left side of airline
     " let g:airline_section_b='%{strftime('%H:%M:%S')}'
     " Customize a right side of airline
-    let g:airline_section_y='[%{&fileformat}/%{strlen(&fenc)?&fenc:&enc}]'
+    let g:airline_section_y='buf:%n [%{&fileformat}/%{strlen(&fenc)?&fenc:&enc}]'
     " Use airline's showmode
     set noshowmode
   "" }}}
