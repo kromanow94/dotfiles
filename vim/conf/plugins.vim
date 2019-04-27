@@ -336,6 +336,9 @@ call plug#begin('~/.vim/plugged')
     let g:user_emmet_leader_key='<C-Y>'
     " Customize the behavior of the languages
     let g:user_emmet_settings={
+    \ 'html': {
+    \   'indentation' : '   ',
+    \ },
     \ 'xml': {
     \   'extends': 'html',
     \ },
