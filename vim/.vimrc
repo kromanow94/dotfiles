@@ -15,6 +15,12 @@ if filereadable(expand("\~/.vim/plugins.vim"))
   source \~/.vim/plugins.vim
 endif
 
+" If local vim config exists, load
+if filereadable(expand(".local.vim"))
+    source .local.vim
+endif
+
+
 """ General Configuration - Visual
 if filereadable(expand("\~/.vim/visual.vim"))
   source \~/.vim/visual.vim

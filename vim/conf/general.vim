@@ -107,6 +107,8 @@ set relativenumber
   set autoindent
   " Do smart autoindenting when starting a new line
   set smartindent
+  " C indent
+  set cindent
 """ }}}
 
 """ Visual {{{

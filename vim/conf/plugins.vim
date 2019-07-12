@@ -85,6 +85,43 @@ call plug#begin('~/.vim/plugged')
     inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
   "" }}}
 
+  "" Plugin: vim-codefmt {{{
+    Plug 'google/vim-maktaba'
+    Plug 'google/vim-codefmt'
+    Plug 'google/vim-glaive'
+
+    augroup autoformat_settings
+        autocmd!
+        autocmd FileType c,cpp,proto,javascript AutoFormatBuffer clang-format
+        autocmd FileType html,css,sass,scss,less,json AutoFormatBuffer js-beautify
+        autocmd FileType python AutoFormatBuffer yapf
+    augroup END
+
+  "" }}}
+
+  "" Plugin: vim-clang {{{
+    Plug 'justmao945/vim-clang'
+    " disable auto completion for vim-clang because of neocomplete
+    let g:clang_auto = 0
+    "
+    " default 'longest' can not work with neocomplete
+    let g:clang_c_completeopt = 'menuone,preview'
+    let g:clang_cpp_completeopt = 'menuone,preview'
+
+    " use neocomplete
+    " input patterns
+    if !exists('g:neocomplete#force_omni_input_patterns')
+        let g:neocomplete#force_omni_input_patterns = {}
+    endif
+
+    " for c and c++
+    let g:neocomplete#force_omni_input_patterns.c =
+                \ '[^.[:digit:] *\t]\%(\.\|->\)\w*'
+    let g:neocomplete#force_omni_input_patterns.cpp =
+                \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
+
+  "" }}}
+
   "" Plugin: neosnippet {{{
     Plug 'Shougo/neosnippet'
     Plug 'Shougo/neosnippet-snippets'
@@ -229,6 +266,11 @@ call plug#begin('~/.vim/plugged')
     " For C / C++
     let g:syntastic_cpp_compiler='clang++'
     let g:syntastic_cpp_compiler_options=' -std=c++11'
+    let g:syntastic_cpp_checkers=['cppclean', 'cppcheck', 'cpplint']
+    let g:syntastic_cpp_cpplint_exec = 'cpplint'
+    let g:syntastic_cpp_cpplint_args="--verbose=3 --filter=-whitespace/indent"
+    " let g:syntastic_cppcheck_config_file
+    " let g:syntastic_cppclean_config_file
     " For Python
     let g:syntastic_python_checkers=['flake8']
     " For Scala & Java
@@ -246,10 +288,13 @@ call plug#begin('~/.vim/plugged')
     " Snippet engine for Vim
     Plug 'SirVer/ultisnips'
     " Configure keys trigerring UltiSnips
-    let g:UltiSnipsExpandTrigger='<Tab>'
-    let g:UltiSnipsJumpForwardTrigger='<Tab>'
-    let g:UltiSnipsJumpBackwardTrigger='<S-Tab>'
-    let g:UltiSnipsListSnippets='<Tab>l'
+    " let g:UltiSnipsExpandTrigger='<Tab>'
+    let g:UltiSnipsExpandTrigger='<C-l>'
+    " let g:UltiSnipsJumpForwardTrigger='<Tab>'
+    " let g:UltiSnipsJumpForwardTrigger='<C-j>'
+    " let g:UltiSnipsJumpBackwardTrigger='<S-Tab>'
+    " let g:UltiSnipsJumpBackwardTrigger='<C-k>'
+    " let g:UltiSnipsListSnippets='<Tab>l'
     " If you want :UltiSnipsEdit to split your window.
     let g:UltiSnipsEditSplit='vertical'
   "" }}}

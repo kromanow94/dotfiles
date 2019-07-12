@@ -50,13 +50,6 @@ nnoremap <C-p> :set paste!<cr>
   endfunction
 " }}}
 
-""" Windows {{{
-  nnoremap <C-h> <C-w>h
-  nnoremap <C-j> <C-w>j
-  nnoremap <C-k> <C-w>k
-  nnoremap <C-l> <C-w>l
-" }}}
-
 """ Tabs {{{
   nnoremap <silent> <Tab><Tab> :tabnew<CR>
   nnoremap <silent> <Tab>q :tabclose<CR>
