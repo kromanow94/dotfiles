@@ -85,28 +85,14 @@ call plug#begin('~/.vim/plugged')
     inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
   "" }}}
 
-  "" Plugin: vim-codefmt {{{
-    Plug 'google/vim-maktaba'
-    Plug 'google/vim-codefmt'
-    Plug 'google/vim-glaive'
-
-    augroup autoformat_settings
-        autocmd!
-        autocmd FileType c,cpp,proto,javascript AutoFormatBuffer clang-format
-        autocmd FileType html,css,sass,scss,less,json AutoFormatBuffer js-beautify
-        autocmd FileType python AutoFormatBuffer yapf
-    augroup END
-
-  "" }}}
-
   "" Plugin: vim-clang {{{
     Plug 'justmao945/vim-clang'
     " disable auto completion for vim-clang because of neocomplete
     let g:clang_auto = 0
     "
     " default 'longest' can not work with neocomplete
-    let g:clang_c_completeopt = 'menuone,preview'
-    let g:clang_cpp_completeopt = 'menuone,preview'
+    let g:clang_c_completeopt = 'menuone,preview,noinsert'
+    let g:clang_cpp_completeopt = 'menuone,preview,noinsert'
 
     " use neocomplete
     " input patterns
@@ -121,6 +107,22 @@ call plug#begin('~/.vim/plugged')
                 \ '[^.[:digit:] *\t]\%(\.\|->\)\w*\|\h\w*::\w*'
 
   "" }}}
+
+  "" Plugin: vim-codefmt {{{
+    Plug 'google/vim-maktaba'
+    Plug 'google/vim-codefmt'
+    Plug 'google/vim-glaive'
+
+    augroup autoformat_settings
+        autocmd!
+        autocmd FileType c,cpp,proto,javascript AutoFormatBuffer clang-format
+        autocmd FileType html,css,sass,scss,less,json AutoFormatBuffer js-beautify
+        autocmd FileType python AutoFormatBuffer yapf
+    augroup END
+
+  "" }}}
+
+
 
   "" Plugin: neosnippet {{{
     Plug 'Shougo/neosnippet'
