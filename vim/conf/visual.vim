@@ -66,4 +66,10 @@ endif
   set background=dark
   " Set colorscheme
   silent! colorscheme gruvbox
+  set termguicolors
+  "
+  " set Vim-specific sequences for RGB colors
+  " this works better for vim in tmux
+  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 """ }}}

@@ -89,10 +89,12 @@ call plug#begin('~/.vim/plugged')
     Plug 'justmao945/vim-clang'
     " disable auto completion for vim-clang because of neocomplete
     let g:clang_auto = 0
-    "
+    " enable auto cheks
+    let g:clang_check_syntax_auto = 1
+
     " default 'longest' can not work with neocomplete
-    let g:clang_c_completeopt = 'menuone,preview,noinsert'
-    let g:clang_cpp_completeopt = 'menuone,preview,noinsert'
+    let g:clang_c_completeopt = 'menuone,noinsert'
+    let g:clang_cpp_completeopt = 'menuone,noinsert'
 
     " use neocomplete
     " input patterns
@@ -465,12 +467,13 @@ call plug#begin('~/.vim/plugged')
     " Change darkmode contrast. Possible values are `soft`, `medium`, `hard`
     let g:gruvbox_contrast_dark='medium'
     " Change lightmode contrast. Possible values are `soft`, `medium`, `hard`
-    let g:gruvbox_contrast_light='hard'
+    let g:gruvbox_contrast_light='soft'
     " Change cursor background
     let g:gruvbox_hls_cursor='green'
     " Inverts indent guides
     let g:gruvbox_invert_indent_guides=0
   "" }}}
+
 """ }}}
 
 
