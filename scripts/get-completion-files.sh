@@ -7,8 +7,8 @@ wget https://raw.githubusercontent.com/hashicorp/vagrant/master/contrib/bash/com
 echo "Done"
 
 echo "Downloading go completion"
-wget https://raw.githubusercontent.com/skelterjohn/go-pkg-complete/master/go-pkg-complete.bash.inc \
-  -O bash-completion/bash_completion.d/go -o /dev/null 
+go get -u github.com/posener/complete/gocomplete
+gocomplete -install
 echo "Done"
 
 echo "Downloading docker completion"
