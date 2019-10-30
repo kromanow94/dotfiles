@@ -9,6 +9,6 @@
         state: present
       with_items:
         - vim
-        - vim-nox
         - bash-completion
-
+        - rxvt-unicode-256color-ml
+        - xdotool

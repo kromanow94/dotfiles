@@ -267,23 +267,30 @@ call plug#begin('~/.vim/plugged')
     let g:syntastic_auto_loc_list=1
     let g:syntastic_check_on_open=1
     let g:syntastic_check_on_wq=0
+
     " For C / C++
     let g:syntastic_cpp_compiler='clang++'
     let g:syntastic_cpp_compiler_options=' -std=c++11'
     let g:syntastic_cpp_checkers=['cppclean', 'cppcheck', 'cpplint']
     let g:syntastic_cpp_cpplint_exec = 'cpplint'
     let g:syntastic_cpp_cpplint_args="--verbose=3 --filter=-whitespace/indent"
+    let g:syntastic_cpp_cppcheck_args="--std=c++11 --language=c++"
     " let g:syntastic_cppcheck_config_file
     " let g:syntastic_cppclean_config_file
+
     " For Python
     let g:syntastic_python_checkers=['flake8']
+    let g:syntastic_python_flake8_args=['--max-line-length=120']
+
     " For Scala & Java
     " let g:syntastic_scala_checkers=['fsc', 'scalac']
+
     " For Javascript & Node.JS
     let g:syntastic_javascript_checkers=['eslint']
     let s:eslint_path=system('PATH=$(npm bin):$PATH && which eslint')
     let b:syntastic_javascript_eslint_exec=substitute(s:eslint_path, '^\n*\s*\(.\{-}\)\n*\s*$', '\1', '')
     " let g:syntastic_javascript_checkers = ['jshint']
+
     " For Shell Script(sh, bash)
     let g:syntastic_sh_checkers=['shellcheck']
   "" }}}

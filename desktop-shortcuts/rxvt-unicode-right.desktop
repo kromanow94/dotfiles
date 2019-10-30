@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=rxvt-unicode-right (256color) multi-language
+Comment=A VT102 emulator for the X window system
+Exec=urxvt256c-ml -name urxvt-right
+Terminal=false
+Type=Application
+Icon=utilities-terminal
+Categories=System;TerminalEmulator;
+StartupWMClass=URxvt-right
+X-Desktop-File-Install-Version=0.23

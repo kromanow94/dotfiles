@@ -14,11 +14,11 @@
     command: [./scripts/get-completion-files.sh, Downloading bash-completion files]
     stdout: true
     stderr: true
-  - 
+  -
     command: [./scripts/base-packages.sh, Installing essential packages]
     stdout: true
     stderr: true
-  - 
+  -
     command: [ansible-playbook ./playbooks/worker-packages.yml, Installing worker packages]
     stdout: true
     stderr: true

@@ -10,6 +10,10 @@
     command: [git submodule update --init --recursive, Installing submodules]
     stdout: true
     stderr: true
+  -
+    command: [mkdir -p ~/.local/share/applications, Create ~/.local/share/applications dir]
+    stdout: true
+    stderr: true
 
 - link:
     ~/.tmux:
@@ -18,6 +22,15 @@
     ~/.tmux.conf:
       force: true
       path: tmux/tmux.conf
+    ~/.local/share/applications/rxvt-unicode-left.desktop:
+      force: true
+      path: desktop-shortcuts/rxvt-unicode-left.desktop
+    ~/.local/share/applications/rxvt-unicode-right.desktop:
+      force: true
+      path: desktop-shortcuts/rxvt-unicode-right.desktop
+    ~/.Xresources:
+      force: true
+      path: .Xresources
 
 - shell:
   -
@@ -31,7 +44,3 @@
     stdout: true
     stderr: true
   - tmux kill-server
-  -
-    command: [ansible-playbook ./playbooks/install-vagrant.yml, Installing TMUX]
-    stdout: true
-    stderr: true
