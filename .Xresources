@@ -2,11 +2,11 @@ URxvt.perl-ext-common: ...,fullscreen,...
 URxvt.keysym.F11: perl:fullscreen:switch
 
 URxvt*depth: 32
+URxvt*background: [88]#000000
 URxvt*saveLines: 12000
 URxvt*loginShell: true
 URxvt*internalBorder: 3
 URxvt*foreground: WhiteSmoke
-URxvt*background: [86]#000000
 URxvt*geometry: 140x50+110+60
 URxvt*font: xft:Source Code Pro Medium:pixelsize=15:antialias=true:hinting=true,xft:Source Code Pro Medium:pixelsize=15:antialias=true:hinting=true
 URxvt.letterSpace: 0
