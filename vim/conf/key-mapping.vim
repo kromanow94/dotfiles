@@ -32,8 +32,11 @@ nnoremap <C-j><C-j> :<c-u>execute 'move +'. v:count1<cr>
 " Print absolute path of current file
 nnoremap <C-w>p :echo expand('%:p')<cr>
 
-" Print absolute path of current file
+" Toggle paste mode
 nnoremap <C-p> :set paste!<cr>
+
+" Swap current word with next, don't change cursor position
+nnoremap <silent> gw "_yiw:s/\(\%#\w\+\)\(\W\+\)\(\w\+\)/\3\2\1/<CR><c-o><c-l>:nohlsearch<CR>
 
 """ Hex Editor {{{
   " Map HexEditToggle to <F9>
