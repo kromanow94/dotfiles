@@ -38,6 +38,9 @@ nnoremap <C-p> :set paste!<cr>
 " Swap current word with next, don't change cursor position
 nnoremap <silent> gw "_yiw:s/\(\%#\w\+\)\(\W\+\)\(\w\+\)/\3\2\1/<CR><c-o><c-l>:nohlsearch<CR>
 
+" search for visually hightlighted text (https://stackoverflow.com/a/15934899)
+vnoremap <c-f> y<ESC>/<c-r>"<CR>
+
 """ Hex Editor {{{
   " Map HexEditToggle to <F9>
   nnoremap <silent> <F9> :call HexEditToggle()<CR>
