@@ -55,6 +55,7 @@ call plug#begin('~/.vim/plugged')
   "" Plugin: supertab {{{
     Plug 'ervandew/supertab'
     let g:SuperTabClosePreviewOnPopupClose = 1
+    let g:SuperTabDefaultCompletionType = "<c-n>"
   "" }}}
 
   "" Plugin: neocomplete {{{
