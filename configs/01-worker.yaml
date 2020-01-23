@@ -15,6 +15,10 @@
     stdout: true
     stderr: true
   -
+    command: [./scripts/kubectl-helpers.sh, Downloading kubectl plugins files]
+    stdout: true
+    stderr: true
+  -
     command: [./scripts/base-packages.sh, Installing essential packages]
     stdout: true
     stderr: true
