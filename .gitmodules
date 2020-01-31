@@ -7,3 +7,6 @@
 [submodule "tmux/repository"]
 	path = tmux/repository
 	url = https://github.com/tmux/tmux.git
+[submodule "git-crypt"]
+	path = git-crypt
+	url = https://github.com/AGWA/git-crypt.git
