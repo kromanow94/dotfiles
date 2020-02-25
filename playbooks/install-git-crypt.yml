@@ -1,0 +1,30 @@
+---
+- name: install git-crypt dependencies
+  hosts: localhost
+  environment:
+    ENABLE_MAN: "yes"
+  tasks:
+    - name: install git-crypt dependencies (Fedora)
+      become: yes
+      package:
+        name: "{{ item }}"
+        state: latest
+      with_items:
+        - openssl-devel
+      when: >
+        ansible_distribution == 'Fedora'
+
+    - name: info
+      debug:
+        msg: "Compilation can take more time if man pages are going to be installed"
+
+    - name: make
+      args:
+        chdir: ../git-crypt
+      command: make
+
+    - name: install
+      become: yes
+      args:
+        chdir: ../git-crypt
+      command: make install
