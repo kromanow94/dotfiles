@@ -1,0 +1,15 @@
+---
+- name: install urxvt
+  hosts: localhost
+  tasks:
+    - name: install urxvt 256 ml
+      package:
+        name: rxvt-unicode-256color-ml.x86_64
+        with_items:
+          - rxvt-unicode-256color-ml
+          - xdotool
+
+    - name: create urxvt extensions dir
+      file:
+        path: "{{ ansible_home }}/.urxvt/ext"
+        state: directory

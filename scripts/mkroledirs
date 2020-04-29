@@ -1,0 +1,4 @@
+#!/bin/bash
+set -ex
+
+mkdir {defaults,files,handlers,meta,tasks,templates,vars}
