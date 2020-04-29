@@ -12,3 +12,4 @@
         - bash-completion
         - rxvt-unicode-256color-ml
         - xdotool
+        - ShellCheck

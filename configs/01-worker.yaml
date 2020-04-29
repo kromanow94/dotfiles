@@ -27,6 +27,10 @@
     stdout: true
     stderr: true
 
+  - command: [mkdir -p ~/.config/yapf, Create yapf local config dir]
+    stdout: false
+    stderr: true
+
 - link:
     ~/.vim:
       force: true
@@ -46,6 +50,12 @@
     ~/.gitconfig.local:
       force: true
       path: git/.gitconfig.local
+    ~/.inputrc:
+      force: true
+      path: inputrc
+    ~/.config/yapf/style:
+      force: true
+      path: yapf.style
 
 - shell:
   -

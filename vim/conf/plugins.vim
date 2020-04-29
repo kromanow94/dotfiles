@@ -299,6 +299,9 @@ call plug#begin('~/.vim/plugged')
 
     " For Shell Script(sh, bash)
     let g:syntastic_sh_checkers=['shellcheck']
+
+    " filetype extra mappings
+    let g:syntastic_filetype_map = {"jenkins.yml": "yaml"}
   "" }}}
 
   "" Plugin: UltiSnips {{{
