@@ -116,12 +116,45 @@ call plug#begin('~/.vim/plugged')
     Plug 'google/vim-codefmt'
     Plug 'google/vim-glaive'
 
+    let g:use_formatting = 1
+
     augroup autoformat_settings
         autocmd!
         autocmd FileType c,cpp,proto,javascript AutoFormatBuffer clang-format
         autocmd FileType html,css,sass,scss,less,json AutoFormatBuffer js-beautify
         autocmd FileType python AutoFormatBuffer yapf
     augroup END
+
+    " function! FormatToggle()
+    "     if g:use_formatting == 1
+    "         let g:use_formatting = 0
+    "     else
+    "         let g:use_formatting = 1
+    "     endif
+    "         
+    "     if g:use_formatting == 1
+    "         augroup autoformat_settings
+    "             autocmd!
+    "             autocmd FileType c,cpp,proto,javascript AutoFormatBuffer clang-format
+    "             autocmd FileType html,css,sass,scss,less,json AutoFormatBuffer js-beautify
+    "             autocmd FileType python AutoFormatBuffer yapf
+    "         augroup END
+    "         echomsg string("Formatting enabled")
+    "     else
+    "         augroup autoformat_settings
+    "             autocmd!
+    "         augroup END
+    "         echomsg string("Formatting disabled")
+    "     endif
+
+    " endfunction
+        
+    " augroup autoformat_settings
+    "     autocmd!
+    "     autocmd FileType c,cpp,proto,javascript AutoFormatBuffer clang-format
+    "     autocmd FileType html,css,sass,scss,less,json AutoFormatBuffer js-beautify
+    "     autocmd FileType python AutoFormatBuffer yapf
+    " augroup END
 
   "" }}}
 
@@ -159,7 +192,7 @@ call plug#begin('~/.vim/plugged')
     " Easy way to browse the tags
     Plug 'majutsushi/tagbar'
     " Map TagbarToggle to <F10>
-    nnoremap <silent> <F10> :TagbarToggle<CR>
+    nnoremap <silent> <F11> :TagbarToggle<CR>
 
     " Tagbar config
     let g:tagbar_type_go = {
@@ -481,13 +514,57 @@ call plug#begin('~/.vim/plugged')
     " Set option value to 16 to fallback
     let g:gruvbox_termcolors=256
     " Change darkmode contrast. Possible values are `soft`, `medium`, `hard`
-    let g:gruvbox_contrast_dark='medium'
+    let g:gruvbox_contrast_dark='hard'
     " Change lightmode contrast. Possible values are `soft`, `medium`, `hard`
     let g:gruvbox_contrast_light='soft'
     " Change cursor background
     let g:gruvbox_hls_cursor='green'
     " Inverts indent guides
     let g:gruvbox_invert_indent_guides=0
+  "" }}}
+
+  "" Theme: 'reedes/vim-colors-pencil' {{{
+    Plug 'reedes/vim-colors-pencil'
+    let g:pencil_higher_contrast_ui = 1   " 0=low (def), 1=high
+    let g:pencil_neutral_headings = 1   " 0=blue (def), 1=normal
+    let g:pencil_neutral_code_bg = 1   " 0=gray (def), 1=normal
+    let g:pencil_spell_undercurl = 1       " 0=underline, 1=undercurl (def)
+
+
+
+
+
+    " " Uses 256 color palette
+    " " Set option value to 16 to fallback
+    " let g:gruvbox_termcolors=256
+    " " Change darkmode contrast. Possible values are `soft`, `medium`, `hard`
+    " let g:gruvbox_contrast_dark='medium'
+    " " Change lightmode contrast. Possible values are `soft`, `medium`, `hard`
+    " let g:gruvbox_contrast_light='soft'
+    " " Change cursor background
+    " let g:gruvbox_hls_cursor='green'
+    " " Inverts indent guides
+    " let g:gruvbox_invert_indent_guides=0
+  "" }}}
+
+  " THIS IS A GOOD CANDIDATE
+  "" Theme: 'arzg/vim-colors-xcode' {{{
+    Plug 'arzg/vim-colors-xcode'
+    " let g:xcodelighthc_green_comments = 1
+  "" }}}
+
+  "" Theme: 'stillwwater/vim-nebula' {{{
+    Plug 'stillwwater/vim-nebula'
+  "" }}}
+
+  "" Theme: 'datMaffin/vim-colors-bionik' {{{
+    Plug 'datMaffin/vim-colors-bionik'
+  "" }}}
+
+
+  " THIS IS A GOOD CANDIDATE
+  "" Theme: 'kadekillary/subtle_solo' {{{
+    Plug 'kadekillary/subtle_solo'
   "" }}}
 
 """ }}}

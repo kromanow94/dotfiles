@@ -1,2 +1,10 @@
 [style]
-line-length=120
+# line-length=120
+# column_limit = 120
+column_limit = 80
+
+# more configuration options: https://gist.github.com/krnd/3b8c5834c5c5c5097638ec10729787f7
+# To disable yapf in specific code part:
+# # yapf: disable
+# # yapf: enable
+#

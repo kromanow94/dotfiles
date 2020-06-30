@@ -67,9 +67,33 @@ if &term =~ '256color'
 endif
 " Set to 'dark' to use colors that look good on dark background
 " Set to 'light' to use colors that look good on a light background
-set background=dark
+" set background=dark
+" set background=light
 " Set colorscheme
-silent! colorscheme gruvbox
+" set background=dark
+" silent! colorscheme gruvbox
+
+" THIS IS A GOOD CANDIDATE
+" silent! colorscheme xcodelighthc
+
+" set background=light
+" silent! colorscheme nebula
+" set termguicolors
+
+" set background=light
+" silent! colorscheme bionik
+" set termguicolors
+
+set background=light
+silent! colorscheme subtle_light
+set termguicolors
+
+
+" silent! colorscheme xcodelight
+" silent! colorscheme pencil
+" let g:airline_theme = 'pencil'
+" silent! colorscheme fogbell_lite
+" let g:lightline = { 'colorscheme': 'bluewery_light' }
 " set termguicolors
 "
 """ }}}
