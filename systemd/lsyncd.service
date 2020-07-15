@@ -1,0 +1,17 @@
+[Unit]
+Description=lsyncd
+After=network-online.target
+
+[Service]
+# Environment="PROXY=proxy-chain.intel.com"
+# Environment="EXCEPTIONS=192.168.3.0/24"
+# EnvironmentFile=-/etc/default/lsyncd
+ExecStart=/usr/bin/lsyncd -nodaemon -pidfile /run/lsyncd.pid %h/.lsyncd.conf
+# ExecStart=/bin/bash -c 'echo "hello home %h or $HOME" && sleep 10'
+PIDFile=/run/lsyncd.pid
+ExecReload=/bin/kill -HUP $MAINPID
+RestartSec=5s
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

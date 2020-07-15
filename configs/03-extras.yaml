@@ -1,0 +1,17 @@
+- shell:
+  - [sleep 0, Installing extras]
+
+  - command: [mkdir -p ~/.config/systemd/user, Create systemd user dir]
+    stdout: true
+    stderr: true
+
+  - [sleep 2, Remember to copy and prepare lsyncd config]
+
+- link:
+    ~/.config/systemd/user/lsyncd.service:
+      force: true
+      path: systemd/lsyncd.service
+
+    ~/.config/systemd/user/onedrive.service:
+      force: true
+      path: systemd/onedrive.service
