@@ -1,10 +1,16 @@
 [style]
 # line-length=120
-# column_limit = 120
-column_limit = 80
+column_limit = 120
+# column_limit = 80
 
 # more configuration options: https://gist.github.com/krnd/3b8c5834c5c5c5097638ec10729787f7
 # To disable yapf in specific code part:
 # # yapf: disable
 # # yapf: enable
-#
+
+
+# To test:
+# [style]
+# based_on_style = pep8
+# spaces_before_comment = 2
+# split_before_logical_operator = true

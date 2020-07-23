@@ -2,28 +2,28 @@
 
 - shell:
   - [sleep 0, Installing krzysztofromanowski94's workers dotfiles]
-  -
-    command: [git pull, Updating dotfiles]
+   
+  - command: [git pull, Updating dotfiles]
     stdout: true
     stderr: true
-  -
-    command: [git submodule update --init --recursive, Installing submodules]
+   
+  - command: [git submodule update --init --recursive, Installing submodules]
     stdout: true
     stderr: true
-  -
-    command: [./scripts/get-completion-files.sh, Downloading bash-completion files]
+   
+  - command: [./scripts/get-completion-files.sh, Downloading bash-completion files]
     stdout: true
     stderr: true
-  -
-    command: [./scripts/kubectl-helpers.sh, Downloading kubectl plugins files]
+   
+  - command: [./scripts/kubectl-helpers.sh, Downloading kubectl plugins files]
     stdout: true
     stderr: true
-  -
-    command: [./scripts/base-packages.sh, Installing essential packages]
+
+  - command: [./scripts/base-packages.sh, Installing essential packages]
     stdout: true
     stderr: true
-  -
-    command: [ansible-playbook ./playbooks/worker-packages.yml, Installing worker packages]
+   
+  - command: [ansible-playbook ./playbooks/worker-packages.yml, Installing worker packages]
     stdout: true
     stderr: true
 
@@ -50,6 +50,9 @@
     ~/.gitconfig.local:
       force: true
       path: git/.gitconfig.local
+    ~/.githooks:
+      force: true
+      path: git/githooks
     ~/.inputrc:
       force: true
       path: inputrc
@@ -58,16 +61,16 @@
       path: yapf.style
 
 - shell:
-  -
-    command: [mkdir -p ~/.vim/autoload]
+   
+  - command: [mkdir -p ~/.vim/autoload]
     stdout: true
     stderr: true
-  -
-    command: ["wget https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim -O ~/.vim/autoload/plug.vim -o /dev/null", get autoload/plug.vim]
+   
+  - command: ["wget https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim -O ~/.vim/autoload/plug.vim -o /dev/null", get autoload/plug.vim]
     stdout: true
     stderr: true
-  -
-    command: [vim +PlugInstall +qall now, Installing Vim plugins]
+   
+  - command: [vim +PlugInstall +qall now, Installing Vim plugins]
     stdin: true
     stdout: true
     stderr: true

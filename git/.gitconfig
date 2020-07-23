@@ -9,16 +9,21 @@
 [push]
   # push should only push current branch, not all branches
   default = current
+
 [help]
   autocorrect = 1
 
 [core]
 	editor = vim
+    hooksPath = ~/.githooks
+
 [merge]
   tool = vimdiff
 
 [format]
   pretty = fuller
+
+### Colors ###
 [color]
   ui = auto
   interactive = auto
@@ -39,6 +44,7 @@
   changed = green reverse
   untracked = normal
 
+### Aliases ###
 [alias]
   ls      = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s\\ %Cgreen(%cr)\\ %Cblue\\ [%cn]" --decorate
   last    = log -1 HEAD
@@ -74,6 +80,11 @@
 
   reporoot = rev-parse --show-toplevel
 
-  rm-uns  = ! git status --porcelain | grep ?? | awk '{ print $2 }' | xargs -L1 rm -rf 
+  # rm-uns  = ! git status --porcelain . | grep ?? | awk '{ print $2 }' | xargs -L1 rm -rf 
+  rm-uns  = ! git status --porcelain | awk '/??/ { system(\"echo rm -rf \"$2) }'
+  test    = ! echo
 
   list    = "! g() { if [ \"${1}\" = \"-e\"  ]; then local except=\"-not -path '${2}*'\"; fi ; git status --short | awk -v excepta=\"${except}\" '{ system(\"find \"$2\" \"excepta)  }' | xargs -L 1 git st --short | uniq ; } ; g"
+
+  set-default-upstream = ! git branch --set-upstream-to=origin/$(git rev-parse --abbrev-ref HEAD)
+  # set-default-upstream = ! git branch --set-upstream-to=origin/CVS-32511-system-from-ovms

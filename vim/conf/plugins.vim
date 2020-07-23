@@ -122,7 +122,9 @@ call plug#begin('~/.vim/plugged')
         autocmd!
         autocmd FileType c,cpp,proto,javascript AutoFormatBuffer clang-format
         autocmd FileType html,css,sass,scss,less,json AutoFormatBuffer js-beautify
-        autocmd FileType python AutoFormatBuffer yapf
+        if !filereadable(expand(".yapf.disable"))
+            autocmd FileType python AutoFormatBuffer yapf
+        endif
     augroup END
 
     " function! FormatToggle()
@@ -318,8 +320,10 @@ call plug#begin('~/.vim/plugged')
     " let g:syntastic_cppclean_config_file
 
     " For Python
-    let g:syntastic_python_checkers=['flake8']
+    " let g:syntastic_python_checkers=['flake8']
+    let g:syntastic_python_checkers=["flake8", "pycodestyle", "pyflakes"]
     let g:syntastic_python_flake8_args=['--max-line-length=120']
+    let g:syntastic_python_pycodestyle_args=['--max-line-length=120']
 
     " For Scala & Java
     " let g:syntastic_scala_checkers=['fsc', 'scalac']
