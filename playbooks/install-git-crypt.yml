@@ -14,6 +14,18 @@
       when: >
         ansible_distribution == 'Fedora'
 
+    - name: install git-crypt dependencies (Debian || Ubuntu)
+      become: yes
+      package:
+        name: "{{ item }}"
+        state: latest
+      with_items:
+        - libssl-dev
+        - xsltproc
+      when: >
+        ansible_distribution == 'Ubuntu' or
+        ansible_distribution == 'Debian'
+
     - name: info
       debug:
         msg: "Compilation can take more time if man pages are going to be installed"

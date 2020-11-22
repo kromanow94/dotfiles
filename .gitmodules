@@ -10,3 +10,6 @@
 [submodule "git-crypt"]
 	path = git-crypt
 	url = https://github.com/AGWA/git-crypt.git
+[submodule "vim/repository"]
+	path = vim/repository
+	url = https://github.com/vim/vim.git

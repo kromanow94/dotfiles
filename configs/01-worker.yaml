@@ -50,9 +50,9 @@
     ~/.gitconfig.local:
       force: true
       path: git/.gitconfig.local
-    ~/.inputrc:
-      force: true
-      path: inputrc
+    #~/.inputrc:
+    #  force: true
+    #  path: inputrc
     ~/.config/yapf/style:
       force: true
       path: yapf.style
