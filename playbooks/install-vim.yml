@@ -1,0 +1,58 @@
+---
+- name: install vim dependencies
+  hosts: localhost
+  become: yes
+  tasks:
+    - name: install vim common dependencies
+      package:
+        name: "{{ item }}"
+        state: latest
+      with_items:
+        - libncurses5-dev
+        # - libgnome2-dev
+        # - libgnomeui-dev
+        # - libgtk2.0-dev
+        - libatk1.0-dev
+        # - libbonoboui2-dev
+        - libcairo2-dev
+        # - libx11-dev
+        - libxpm-dev
+        - libxt-dev
+        - ruby-dev
+        - python3-dev
+        - lua5.2
+        - liblua5.2-dev
+        - libperl-dev 
+
+- name: install vim from source
+  hosts: localhost
+  become: yes
+  tasks:
+    - name: configure
+      environment:
+        CFLAGS: "-fPIC"
+      args:
+        chdir: ../vim/repository
+      command: >
+              ./configure
+              --with-features=huge
+              --enable-multibyte
+              --enable-rubyinterp=yes
+              --enable-python3interp=yes
+              --enable-perlinterp=yes
+              --enable-luainterp=yes
+              --enable-gui=gtk2
+              --enable-cscope
+              --prefix=/usr/local
+      # --with-tlib=ncurses
+      # --exec-prefix=/
+
+    - name: make
+      args:
+        chdir: ../vim/repository
+      command: make
+
+    - name: make install
+      args:
+        chdir: ../vim/repository
+      command: make install

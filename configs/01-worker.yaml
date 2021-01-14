@@ -32,12 +32,12 @@
     stderr: true
 
 - link:
-    ~/.vim:
-      force: true
-      path: vim/conf/
-    ~/.vimrc:
-      force: true
-      path: vim/.vimrc
+    # ~/.vim:
+    #   force: true
+    #   path: vim/conf/
+    # ~/.vimrc:
+    #   force: true
+    #   path: vim/.vimrc
     ~/.bash_completion:
       force: true
       path: bash-completion/bash_completion
@@ -50,28 +50,28 @@
     ~/.gitconfig.local:
       force: true
       path: git/.gitconfig.local
-    ~/.githooks:
-      force: true
-      path: git/githooks
-    ~/.inputrc:
-      force: true
-      path: inputrc
+    # ~/.githooks:
+    #   force: true
+    #   path: git/githooks
+    # ~/.inputrc:
+    #   force: true
+    #   path: inputrc
     ~/.config/yapf/style:
       force: true
       path: yapf.style
 
 - shell:
    
-  - command: [mkdir -p ~/.vim/autoload]
-    stdout: true
-    stderr: true
+  # - command: [mkdir -p ~/.vim/autoload]
+  #   stdout: true
+  #   stderr: true
    
-  - command: ["wget https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim -O ~/.vim/autoload/plug.vim -o /dev/null", get autoload/plug.vim]
-    stdout: true
-    stderr: true
+  # - command: ["wget https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim -O ~/.vim/autoload/plug.vim -o /dev/null", get autoload/plug.vim]
+  #   stdout: true
+  #   stderr: true
    
-  - command: [vim +PlugInstall +qall now, Installing Vim plugins]
-    stdin: true
-    stdout: true
-    stderr: true
+  # - command: [vim +PlugInstall +qall now, Installing Vim plugins]
+  #   stdin: true
+  #   stdout: true
+  #   stderr: true
 

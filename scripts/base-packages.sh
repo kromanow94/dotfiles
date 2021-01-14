@@ -15,7 +15,10 @@ elif [ "${OS_RELEASE}" == "CentOS Linux" ]; then
   sudo dnf install -y python3-pip
 
 elif [ "${OS_RELEASE}" == "Ubuntu" ]; then
-  sudo bash -c "apt-get update && apt-get install -y python3-pip"
+  sudo bash -c "apt-get update && apt-get install -y python3 python3-pip"
+
+elif [ "${OS_RELEASE}" == "Raspbian GNU/Linux" ]; then
+  sudo bash -c "apt-get update && apt-get install -y python3 python3-pip"
 
 elif [ "${OS_RELEASE}" == "Clear Linux OS" ]; then
   sudo swupd bundle-add tcl-basic network-basic python3-basic

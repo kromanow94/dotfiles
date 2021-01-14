@@ -11,4 +11,4 @@
         # TODO: change vim installation to source from repository
         # - vim
         - bash-completion
-        - ShellCheck
+        - shellcheck

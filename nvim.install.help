@@ -1,0 +1,5 @@
+sudo apt-get install gettext
+git clone https://github.com/neovim/neovim.git
+
+make CMAKE_EXTRA_FLAGS="-DCMAKE_INSTALL_PREFIX=$HOME/neovim"
+make install

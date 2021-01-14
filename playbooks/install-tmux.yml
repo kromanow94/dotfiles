@@ -3,7 +3,14 @@
   hosts: localhost
   become: yes
   tasks:
-    - name: install tmux dependencies (CentOS || RHEL || Ubuntu)
+    - name: install tmux common dependencies
+      package:
+        name: "{{ item }}"
+        state: latest
+      with_items:
+        - byacc
+
+    - name: install tmux dependencies (CentOS || RHEL || Ubuntu || Debian)
       package:
         name: "{{ item }}"
         state: latest
@@ -13,7 +20,8 @@
       when: >
         ansible_distribution == 'CentOS' or
         ansible_distribution == 'Red Hat Enterprise Linux' or
-        ansible_distribution == 'Ubuntu'
+        ansible_distribution == 'Ubuntu' or
+        ansible_distribution == 'Debian'
 
     - name: install tmux dependencies (Fedora)
       package:
