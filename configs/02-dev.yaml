@@ -22,15 +22,15 @@
     ~/.tmux.conf:
       force: true
       path: tmux/tmux.conf
-    ~/.local/share/applications/rxvt-unicode-left.desktop:
-      force: true
-      path: desktop-shortcuts/rxvt-unicode-left.desktop
-    ~/.local/share/applications/rxvt-unicode-right.desktop:
-      force: true
-      path: desktop-shortcuts/rxvt-unicode-right.desktop
-    ~/.Xresources:
-      force: true
-      path: .Xresources
+      # ~/.local/share/applications/rxvt-unicode-left.desktop:
+      #   force: true
+      #   path: desktop-shortcuts/rxvt-unicode-left.desktop
+      # ~/.local/share/applications/rxvt-unicode-right.desktop:
+      #   force: true
+      #   path: desktop-shortcuts/rxvt-unicode-right.desktop
+      # ~/.Xresources:
+      #   force: true
+      #   path: .Xresources
 
 - shell:
   -
@@ -44,7 +44,7 @@
     stdout: true
     stderr: true
   - tmux kill-server
-  -
-    command: [ansible-playbook ./playbooks/install-git-crypt.yml, Installing git-crypt]
-    stdout: true
-    stderr: true
+    # -
+    #   command: [ansible-playbook ./playbooks/install-git-crypt.yml, Installing git-crypt]
+    #   stdout: true
+    #   stderr: true
