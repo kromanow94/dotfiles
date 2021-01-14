@@ -86,5 +86,4 @@
 
   list    = "! g() { if [ \"${1}\" = \"-e\"  ]; then local except=\"-not -path '${2}*'\"; fi ; git status --short | awk -v excepta=\"${except}\" '{ system(\"find \"$2\" \"excepta)  }' | xargs -L 1 git st --short | uniq ; } ; g"
 
-  set-default-upstream = ! git branch --set-upstream-to=origin/$(git rev-parse --abbrev-ref HEAD)
-  # set-default-upstream = ! git branch --set-upstream-to=origin/CVS-32511-system-from-ovms
+  set-default-upstream = "! g() { remote=\"${1:-origin}\"; branch=\"${2:-$(git rev-parse --abbrev-ref HEAD)}\"; git branch --set-upstream-to=$remote/$branch; } ; g"

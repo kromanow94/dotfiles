@@ -32,6 +32,9 @@ set modelines=4
 " Use relative line numbers
 set relativenumber
 
+" Set nowrap and use arrows to scroll
+set nowrap
+
 """ Auto Commands {{{
   if has("autocmd")
     " Auto reload vimrc

@@ -8,6 +8,7 @@
         name: "{{ item }}"
         state: present
       with_items:
-        - vim
+        # TODO: change vim installation to source from repository
+        # - vim
         - bash-completion
         - ShellCheck

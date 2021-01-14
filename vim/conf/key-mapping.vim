@@ -55,6 +55,14 @@ vnoremap <c-f> y<ESC>/<c-r>"<CR>
     endif
   endfunction
 " }}}
+"
+""" Scrolling
+  nnoremap <Right> 3zl
+  nnoremap <Left> 3zh
+  nnoremap <Up> 3<C-y>
+  nnoremap <Down> 3<C-e>
+
+"""
 
 """ Tabs {{{
   nnoremap <silent> <Tab><Tab> :tabnew<CR>

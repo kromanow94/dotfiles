@@ -8,6 +8,7 @@ if [ "${OS_RELEASE}" == "Fedora" ] || [ "${OS_RELEASE}" == "CentOS Linux" ]; the
     sudo yum install -y cppcheck
 else
     echo "Script does not handle system: ${OS_RELEASE}"
+    exit 1
 fi
 
 pip3 install --user cpplint cppclean
