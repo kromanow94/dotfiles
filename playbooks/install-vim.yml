@@ -1,9 +1,9 @@
 ---
 - name: install vim dependencies
   hosts: localhost
-  become: yes
   tasks:
     - name: install vim common dependencies
+      become: yes
       package:
         name: "{{ item }}"
         state: latest
@@ -26,7 +26,6 @@
 
 - name: install vim from source
   hosts: localhost
-  become: yes
   tasks:
     - name: configure
       environment:
@@ -53,6 +52,7 @@
       command: make
 
     - name: make install
+      become: yes
       args:
         chdir: ../vim/repository
       command: make install
