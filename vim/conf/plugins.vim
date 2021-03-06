@@ -123,7 +123,8 @@ call plug#begin('~/.vim/plugged')
         autocmd FileType c,cpp,proto,javascript AutoFormatBuffer clang-format
         autocmd FileType html,css,sass,scss,less,json AutoFormatBuffer js-beautify
         if !filereadable(expand(".yapf.disable"))
-            autocmd FileType python AutoFormatBuffer yapf
+            " autocmd FileType python AutoFormatBuffer yapf
+            autocmd FileType python AutoFormatBuffer black
         endif
     augroup END
 
