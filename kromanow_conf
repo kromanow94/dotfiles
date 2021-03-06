@@ -1,0 +1,16 @@
+#!/bin/bash
+
+function gps_init {
+    cd ~/Repos/work/gps_lake_house
+    . ~/Repos/work/gps_lake_house/kromanow/source_me.dev
+}
+
+function aws_cdk_resources {
+    filepath="${1}"
+    jq '.Resources | keys ' < "${filepath}"
+}
+
+function aws_cdk_describe_stacks {
+    stack_name="${1}"
+    aws cloudformation describe-stacks --query "Stacks[]|[?contains(StackName, \`"${stack_name}"\`)]"
+}

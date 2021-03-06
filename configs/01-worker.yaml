@@ -50,6 +50,9 @@
     ~/.gitconfig.local:
       force: true
       path: git/.gitconfig.local
+    ~/.kromanow_conf:
+      force: true
+      path: kromanow_conf
     # ~/.githooks:
     #   force: true
     #   path: git/githooks

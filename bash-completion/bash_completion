@@ -1,3 +1,7 @@
 for bcfile in ~/.bash_completion.d/* ; do
   . $bcfile
 done
+
+if [[ -e "~/.kromanow_conf" ]]; then
+  . "~/.kromanow_conf"
+fi
