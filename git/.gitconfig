@@ -5,6 +5,8 @@
   path = ~/.gitconfig.local
 [includeIf "gitdir:~/Repos/work/"]
   path = ~/.gitconfig.work
+[includeIf "gitdir:~/work/"]
+  path = ~/.gitconfig.work
 
 [push]
   # push should only push current branch, not all branches
@@ -15,7 +17,7 @@
 
 [core]
 	editor = vim
-    hooksPath = ~/.githooks
+  # hooksPath = ~/.githooks
 
 [merge]
   tool = vimdiff
@@ -51,6 +53,9 @@
   today   = log --since=midnight --color --graph \
             --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(blue)[%an]%Creset' \
             --abbrev-commit
+  week    = log --since='1 weeks ago' --color --graph \
+            --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(blue)[%an]%Creset' \
+            --abbrev-commit
   yesterday = log --since yesterday --until=midnight --color --graph \
             --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(blue)[%an]%Creset' \
             --abbrev-commit
@@ -67,7 +72,7 @@
   coh     = checkout HEAD --
   com     = checkout master
 
-  amend   = commit --amend
+  amend   = commit --amend -s
   cos     = commit -s
 
   s       = status --short --branch
