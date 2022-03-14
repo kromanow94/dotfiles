@@ -48,7 +48,9 @@
 
 ### Aliases ###
 [alias]
-  ls      = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s\\ %Cgreen(%cr)\\ %Cblue\\ [%cn]" --decorate
+  # ls      = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s\\ %Cgreen(%cr)\\ %Cblue\\ [%cn]" --decorate
+  # ls      = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s\\ %Cgreen(%ci)\\ %Cblue\\ [%cn]" --decorate
+  ls      = log --pretty=format:"%C(yellow)%h\\ %Creset%s\\ %Cgreen(%ci)\\ %Cblue\\ [%cn]\\ %Cred%d" --decorate
   last    = log -1 HEAD
   today   = log --since=midnight --color --graph \
             --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(blue)[%an]%Creset' \

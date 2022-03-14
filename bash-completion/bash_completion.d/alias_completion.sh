@@ -1,6 +1,8 @@
 # From https://superuser.com/a/437508
 # Automatically add completion for all aliases to commands having completion functions
 
+return 0
+
 # Only use if not in ClearLinux
 OS_RELEASE=$(grep --no-filename ^NAME /etc/*-release | awk -F '[="]' '/^NAME=/ { print $3 }')
 if [ "${OS_RELEASE}" == "Clear Linux OS" ]; then

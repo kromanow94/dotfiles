@@ -20,14 +20,14 @@
         "--max-line-length=88"
     ],
     "files.insertFinalNewline": true,
+    "json.schemas": [],
+    "terminal.integrated.allowChords": false,
     "workbench.editorAssociations": [
         {
             "viewType": "jupyter.notebook.ipynb",
             "filenamePattern": "*.ipynb"
         }
     ],
-    "editor.minimap.enabled": false,
-    "git.enabled": false,
     "yaml.customTags": [
         "!And",
         "!And sequence",
@@ -55,13 +55,23 @@
         "!Select",
         "!Select sequence",
         "!Split",
-        "!Split sequence",
+        "!Split sequence"
     ],
-    "yaml.schemas": {},
-    "redhat.telemetry.enabled": true,
+    "redhat.telemetry.enabled": false,
+    "terminal.integrated.inheritEnv": true,
+    "git.enabled": false,
+    "editor.minimap.enabled": false,
     "gitlens.advanced.messages": {
         "suppressGitDisabledWarning": true
     },
-    "jupyter.askForKernelRestart": false,
+    "gitlens.advanced.caching.enabled": false,
+    "gitlens.codeLens.enabled": false,
+    "python.experiments.optInto": [
+        "pythonDiscoveryModule"
+    ],
+    "python.experiments.optOutFrom": [
+        "CollectLSRequestTiming - control",
+        "CollectNodeLSRequestTiming - experiment"
+    ]
 }
 

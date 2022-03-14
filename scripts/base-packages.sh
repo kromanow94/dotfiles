@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e 
+exit
 
 DOTFILES_DIR=$(git rev-parse --show-toplevel)
 OS_RELEASE=$(grep --no-filename ^NAME /etc/*-release | awk -F '[="]' '/^NAME=/ { print $3 }')
