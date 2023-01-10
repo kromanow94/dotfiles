@@ -1,0 +1,63 @@
+- clean: ['~']
+
+- shell:
+  - [sleep 0, Installing krzysztofromanowski94's minimal dotfiles]
+
+  - command: [git pull, Updating dotfiles]
+    stdout: true
+    stderr: true
+   
+  - command: [git submodule update --init --recursive, Installing submodules]
+    stdout: true
+    stderr: true
+   
+  - command: [./scripts/get-completion-files.sh, Downloading bash-completion files]
+    stdout: true
+    stderr: true
+   
+  - command: [./scripts/kubectl-helpers.sh, Downloading kubectl plugins files]
+    stdout: true
+    stderr: true
+
+  - command: [mkdir ~/.local/bin, Create ~/.local/bin dir]
+    stdout: true
+    stderr: true
+
+  - command: [ln -sf $(which code-server) ~/.local/bin/code, Create ~/.local/bin dir]
+    stdout: true
+    stderr: true
+
+- link:
+    ~/.bash_completion:
+      force: true
+      path: bash-completion/bash_completion
+    ~/.bash_completion.d:
+      force: true
+      path: bash-completion/bash_completion.d
+    ~/.gitconfig:
+      force: true
+      path: git/.gitconfig
+    ~/.gitconfig.local:
+      force: true
+      path: git/.gitconfig.local
+    ~/.kromanow_conf:
+      force: true
+      path: kromanow_conf
+    ~/.tmux:
+      force: true
+      path: tmux
+    ~/.tmux.conf:
+      force: true
+      path: tmux/tmux.conf
+    ~/.local/share/code-server/User/keybindings.json:
+      force: true
+      path: vscode/keybindings.json
+    ~/.local/share/code-server/User/settings.json:
+      force: true
+      path: vscode/settings.json
+
+
+- shell:
+  - command: [~/.tmux/plugins/tpm/scripts/install_plugins.sh, Installing TMUX plugins]
+    stdout: true
+    stderr: true

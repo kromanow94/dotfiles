@@ -19,6 +19,8 @@ KREW=./krew-"$(uname | tr '[:upper:]' '[:lower:]')_amd64"
 
 echo "Updating ~/.bashrc"
 grep -q "export.*krew.*" ~/.bashrc || echo "export PATH=\$PATH:~/.krew/bin" >> ~/.bashrc
+grep -q "alias k=kubectl" ~/.bashrc || echo "alias k=kubectl" >> ~/.bashrc
+grep -q "complete -F __start_kubectl k" ~/.bashrc || echo "complete -F __start_kubectl k" >> ~/.bashrc
 source ~/.bashrc
 
 echo "Installing plugins"

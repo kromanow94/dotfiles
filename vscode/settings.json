@@ -72,6 +72,7 @@
     "python.experiments.optOutFrom": [
         "CollectLSRequestTiming - control",
         "CollectNodeLSRequestTiming - experiment"
-    ]
+    ],
+    "jupyter.askForKernelRestart": false,
+    "terminal.integrated.tabs.enabled": true
 }
-
