@@ -55,16 +55,17 @@
         "!Select",
         "!Select sequence",
         "!Split",
-        "!Split sequence"
+        "!Split sequence",
+        "!reference"
     ],
     "redhat.telemetry.enabled": false,
     "terminal.integrated.inheritEnv": true,
-    "git.enabled": false,
+    // "git.enabled": false,
     "editor.minimap.enabled": false,
     "gitlens.advanced.messages": {
         "suppressGitDisabledWarning": true
     },
-    "gitlens.advanced.caching.enabled": false,
+    // "gitlens.advanced.caching.enabled": false,
     "gitlens.codeLens.enabled": false,
     "python.experiments.optInto": [
         "pythonDiscoveryModule"
