@@ -1,0 +1,6 @@
+#!/bin/bash
+set -e
+
+kubectl top nodes \
+    --use-protocol-buffers \
+    | awk '{printf "%s", $0; if ($1 ~ !/Name/) {system("kubectl get node "$1" -oyaml | yq .spec.taints[0].key -r")} else print "Nodegroup name"}'

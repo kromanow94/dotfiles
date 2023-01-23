@@ -1,0 +1,13 @@
+#!/bin/bash
+set -e
+
+case $1 in
+    -h|--help)
+        echo "Get pods deployed on kubernetes nodes."
+        echo "No parameters outputs all pods on all nodes."
+        echo "Accepts a list of nodes separated by space to show pods only on specific nodes."
+        exit 1
+        ;;
+esac
+
+kubectl describe nodes "${@}" | awk -v a=0 -v v=0 '{if ($1 == "Name:") {print "Node: ", $2}; if (a == 0 && $1 ~ /Namespace/) {a=1; v=1};  if($0 ~ /Allocated resources/) {v=0; a=0; print "\n"};  if (v==1) {print $0}; }'
