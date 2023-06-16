@@ -1,15 +1,79 @@
 #!/bin/bash
 
-function pre_commit_disable {
+function pre_commit_disable() {
     repo_root="$(git rev-parse --show-toplevel)"
     for file in {pre-commit,commit-msg}; do
         chmod -x "${repo_root}/.git/hooks/${file}"
     done
 }
 
-function pre_commit_enable {
+function pre_commit_enable() {
     repo_root="$(git rev-parse --show-toplevel)"
     for file in {pre-commit,commit-msg}; do
         chmod +x "${repo_root}/.git/hooks/${file}"
     done
+}
+
+function gtm.manual.turn_me_off() {
+    kubectl \
+        --kubeconfig /dev/null \
+        --certificate-authority /var/run/secrets/kubernetes.io/serviceaccount/ca.crt \
+        --token "$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)" \
+        --server https://kubernetes.default \
+        patch \
+        --type merge \
+        --patch '{"metadata": {"annotations": {"kubeflow-resource-stopped": "true"}}}' \
+        notebook "${HOSTNAME/-0/}"
+}
+
+function gtm.manual.notebook-show-last-activity() {
+    now_seconds=$(date +%s)
+    for notebook in $(kubectl get pods -A -l notebook-name -ojson | jq '.items[]| {namespace: .metadata.namespace, name: .metadata.name} | join("/")' -r); do
+        namespace=$(awk -F/ '{print $1}' <<<$notebook)
+        pod_name=$(awk -F/ '{print $2}' <<<$notebook)
+        nb_name=$(sed 's/-0/ /g' <<<$pod_name)
+        last_active_date=$(kubectl -n $namespace exec $pod_name -- stat ~/.local/share/code-server/heartbeat | awk '/Change/ { print $2, substr($3, 1, 8) }')
+        last_active_seconds=$(date -d "$last_active_date" +%s)
+        difference_in_minutes=$(((now_seconds - last_active_seconds) / 60))
+        echo $notebook "$last_active_date" $difference_in_minutes | awk -F'[/ ]' '{print $1, $2, "last_active_date:", $3, $4, "difference_in_minutes:", $5}'
+    done
+}
+
+function gtm.manual.notebook-culling() {
+    echo "#################################################"
+    echo "###     Starting manual notebook culling      ###"
+    echo "### each notebook to be culled will be logged ###"
+    echo "#################################################"
+    idle_time_minutes=120
+    now_seconds=$(date +%s)
+    for notebook in $(kubectl get pods -A -l notebook-name -ojson | jq '.items[]| {namespace: .metadata.namespace, name: .metadata.name} | join("/")' -r); do
+        namespace=$(awk -F/ '{print $1}' <<<$notebook)
+        pod_name=$(awk -F/ '{print $2}' <<<$notebook)
+        nb_name=$(sed 's/-0/ /g' <<<$pod_name)
+        last_active_date=$(kubectl -n $namespace exec $pod_name -- stat ~/.local/share/code-server/heartbeat | awk '/Change/ { print $2, substr($3, 1, 8) }')
+        last_active_seconds=$(date -d "$last_active_date" +%s)
+        difference_in_minutes=$(((now_seconds - last_active_seconds) / 60))
+        if [ $difference_in_minutes -ge $idle_time_minutes ]; then
+            echo $notebook "$last_active_date" $difference_in_minutes | awk -F'[/ ]' '{print $1, $2, "last_active_date:", $3, $4, "difference_in_minutes:", $5}'
+            kubectl -n $namespace patch notebook $nb_name --type=merge -p '{"metadata":{"annotations":{"kubeflow-resource-stopped":"true"}}}'
+        fi
+    done
+    echo "########################################"
+    echo "### Manual notebook culling finished ###"
+    echo "########################################"
+}
+
+function gtm.manual.nodes-show-template() {
+    kubectl get nodes -oyaml |
+        yq '.items[]| .metadata | 
+              {
+              node: .name,
+              nodegroupType: .labels."eks.amazonaws.com/nodegroup",
+              launchTemplateId: .labels."eks.amazonaws.com/sourceLaunchTemplateId",
+              launchTemplateVersion:  .labels."eks.amazonaws.com/sourceLaunchTemplateVersion"
+		}' -y
+}
+
+function gtm.manual.nodes-show-unneeded() {
+    kubectl -n kube-system logs -l app=cluster-autoscaler | awk '/unneeded/ && /ip-/ { print $5 }' | sort | uniq
 }
