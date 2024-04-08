@@ -1,6 +1,177 @@
-#!/bin/bash
-set -e
+#!/usr/bin/env python3
 
-kubectl top nodes --sort-by=cpu \
-    --use-protocol-buffers \
-    | awk '{printf "%s", $0; if ($1 ~ !/Name/) {system("kubectl get node "$1" -oyaml | yq .spec.taints[0].key -r")} else print "Nodegroup name"}'
+import subprocess
+from dataclasses import dataclass
+from datetime import datetime, timedelta
+from typing import Any, Dict, List, Union
+
+import yaml
+
+
+@dataclass
+class NodeStatus(object):
+    name: str = None
+    cpu_usage_cores: str = None
+    cpu_usage_percent: float = None
+    memory_usage_bytes: int = None
+    memory_usage_percent: float = None
+    age: str = None
+    taints: List[Dict] = None
+    status: str = None
+
+    def taints_as_roles(self) -> str:
+        return ",".join([taint["key"] for taint in self.taints])
+
+
+class NodeList(object):
+    def __init__(self, items: Union[Dict[str, NodeStatus], None] = None) -> None:
+        self.items = items if items is not None else dict()
+
+    def append(self, item: NodeStatus) -> None:
+        self.items.update({item.name: item})
+
+    def update(self, name, item: NodeStatus) -> None:
+        self.items[name] == item
+
+    def items(self):
+        for key, value in self.items():
+            yield key, value
+
+    def get(self, name: str, default: Any = None) -> NodeStatus:
+        return self.items.get(name, default)
+
+    def __iter__(self):
+        for v in self.items.values():
+            yield v
+
+    def __str__(self) -> str:
+        out_lines_values = [
+            [
+                "NAME",
+                "STATUS",
+                "AGE",
+                "CPU(cores)",
+                "CPU%",
+                "MEMORY(bytes)",
+                "MEMORY%",
+                "TAINTS",
+            ]
+        ]
+        for node in self.__iter__():
+            out_lines_values.append(
+                [
+                    node.name,
+                    node.status,
+                    node.age,
+                    node.cpu_usage_cores,
+                    node.cpu_usage_percent,
+                    node.memory_usage_bytes,
+                    node.memory_usage_percent,
+                    node.taints_as_roles(),
+                ]
+            )
+
+        rows_count = len(out_lines_values)
+        column_count = len(out_lines_values[0])
+        columns_width = list()
+
+        for column_index in range(column_count):
+            column_max_width = max(
+                [
+                    len(out_lines_values[row_index][column_index])
+                    for row_index in range(rows_count)
+                ]
+            )
+            columns_width.append(column_max_width)
+
+        return_value = str()
+        for row_index in range(rows_count):
+            out_line = "   ".join(
+                [
+                    f"{out_lines_values[row_index][column_index] :<{columns_width[column_index]}}"  # noqa: E501
+                    for column_index in range(column_count)
+                ]
+            )
+            return_value += f"{out_line}\n"
+        return_value = return_value[:-1]  # get rid of last newline
+        return return_value
+
+
+node_list = NodeList()
+
+top_nodes = (
+    subprocess.check_output(["kubectl", "top", "nodes", "--context", "uat-context"])
+    .decode()
+    .splitlines()[1:]
+)
+get_nodes = yaml.load(
+    subprocess.check_output(
+        ["kubectl", "get", "nodes", "-oyaml", "--context", "uat-context"]
+    ).decode(),
+    Loader=yaml.SafeLoader,
+)
+
+for top_node in top_nodes:
+    (
+        name,
+        cpu_usage_cores,
+        cpu_usage_percent,
+        memory_usage_bytes,
+        memory_usage_percent,
+    ) = top_node.split()
+    node_list.append(
+        NodeStatus(
+            name=name,
+            cpu_usage_cores=cpu_usage_cores,
+            cpu_usage_percent=cpu_usage_percent,
+            memory_usage_bytes=memory_usage_bytes,
+            memory_usage_percent=memory_usage_percent,
+        )
+    )
+
+for node in get_nodes["items"]:
+    name = node["metadata"]["name"]
+    creation_timestamp = node["metadata"]["creationTimestamp"]
+    format_string = "%Y-%m-%dT%H:%M:%SZ"
+    creation_timestamp = datetime.strptime(creation_timestamp, format_string)
+    now = datetime.now()
+    age = now - creation_timestamp
+    delta = timedelta(seconds=age.seconds)
+
+    status = (
+        "Ready" if node["status"]["conditions"][-1]["status"] == "True" else "NotReady"
+    )
+
+    minutes = int(age.seconds / 60)
+    hours = int(minutes / 60)
+    minutes_rest = minutes - (hours * 60)
+    seconds_rest = age.seconds - (minutes * 60)
+    if age.days > 9:
+        age_str = f"{age.days}d"
+    elif age.days > 5:
+        age_str = f"{age.days}d"
+    elif age.days > 1:
+        age_str = f"{age.days}d{hours}h"
+    elif age.days > 0:
+        age_str = f"{age.days * 24 + hours}h"
+    elif hours > 8:
+        age_str = f"{hours}h"
+    elif hours > 2:
+        age_str = f"{hours}h{minutes_rest}m"
+    elif minutes > 3:
+        age_str = f"{minutes}m"
+    else:
+        age_str = f"{age.seconds}s"
+
+    try:
+        taints = node["spec"]["taints"]
+    except KeyError:
+        taints = list()
+
+    node_status = node_list.get(name)
+    node_status.age = age_str
+    node_status.taints = taints
+    node_status.status = status
+    node_list.update(name, node_status)
+
+print(node_list)

@@ -46,4 +46,22 @@
     "command": "-workbench.action.terminal.focusFind",
     "when": "terminalFindFocused && terminalHasBeenCreated || terminalFindFocused && terminalProcessSupported || terminalFocus && terminalHasBeenCreated || terminalFocus && terminalProcessSupported"
   },
+  {
+    "key": "ctrl+shift+x",
+    "command": "-workbench.view.extensions",
+    "when": "viewContainer.workbench.view.extensions.enabled"
+  },
+  {
+    "key": "ctrl+shift+z",
+    "command": "workbench.action.terminal.toggleTerminal",
+  },
+  {
+    "key": "ctrl+shift+x",
+    // "command": "workbench.action.terminal.",
+    "command": "workbench.action.toggleMaximizedPanel",
+  },
+  {
+    "key": "ctrl+q",
+    "command": "-workbench.action.quickOpenView"
+  },
 ]
