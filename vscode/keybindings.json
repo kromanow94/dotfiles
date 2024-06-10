@@ -5,6 +5,14 @@
     "command": "workbench.action.nextEditor"
   },
   {
+    "key": "ctrl+tab",
+    "command": "-workbench.action.quickOpenPreviousRecentlyUsedEditorInGroup"
+  },
+  {
+    "key": "ctrl+tab",
+    "command": "-workbench.action.quickOpenNavigateNextInEditorPicker"
+  },
+  {
     "key": "ctrl+shift+tab",
     "command": "workbench.action.previousEditor"
   },
@@ -34,7 +42,7 @@
   },
   {
     "key": "ctrl+p",
-    "command": "-workbench.action.quickOpen",
+    "command": "-workbench.action.quickOpen"
   },
   {
     "key": "ctrl+p",
@@ -47,21 +55,34 @@
     "when": "terminalFindFocused && terminalHasBeenCreated || terminalFindFocused && terminalProcessSupported || terminalFocus && terminalHasBeenCreated || terminalFocus && terminalProcessSupported"
   },
   {
+    "key": "ctrl+f",
+    "command": "-workbench.action.terminal.focusFind",
+    "when": "terminalFindFocused && terminalHasBeenCreated || terminalFindFocused && terminalProcessSupported || terminalFocusInAny && terminalHasBeenCreated || terminalFocusInAny && terminalProcessSupported"
+  },
+  {
     "key": "ctrl+shift+x",
     "command": "-workbench.view.extensions",
     "when": "viewContainer.workbench.view.extensions.enabled"
   },
   {
     "key": "ctrl+shift+z",
-    "command": "workbench.action.terminal.toggleTerminal",
+    "command": "workbench.action.terminal.toggleTerminal"
   },
   {
     "key": "ctrl+shift+x",
-    // "command": "workbench.action.terminal.",
-    "command": "workbench.action.toggleMaximizedPanel",
+    "command": "workbench.action.toggleMaximizedPanel"
   },
   {
     "key": "ctrl+q",
     "command": "-workbench.action.quickOpenView"
   },
+  {
+    "key": "ctrl+q",
+    "command": "-extension.vim_winCtrlQ",
+    "when": "editorTextFocus && vim.active && vim.use<C-q> && !inDebugRepl"
+  },
+  {
+    "key": "ctrl+q",
+    "command": "workbench.action.toggleSidebarVisibility"
+  }
 ]
