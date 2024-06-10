@@ -19,11 +19,7 @@
     stdout: true
     stderr: true
 
-  - command: [mkdir ~/.local/bin, Create ~/.local/bin dir]
-    stdout: true
-    stderr: true
-
-  - command: [ln -sf $(which code-server) ~/.local/bin/code, Create ~/.local/bin dir]
+  - command: [mkdir -p ~/.local/bin, Create ~/.local/bin dir]
     stdout: true
     stderr: true
 
