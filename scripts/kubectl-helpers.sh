@@ -29,3 +29,4 @@ source ~/.bashrc
 echo "Installing plugins"
 kubectl krew install ctx
 kubectl krew install ns
+kubectl krew install view-serviceaccount-kubeconfig
