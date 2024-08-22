@@ -1,13 +1,59 @@
-#!/bin/bash
-set -e
+#!/usr/bin/env python3
 
-case $1 in
-    -h|--help)
-        echo "Get pods deployed on kubernetes nodes."
-        echo "No parameters outputs all pods on all nodes."
-        echo "Accepts a list of nodes separated by space to show pods only on specific nodes."
-        exit 1
-        ;;
-esac
+import argparse
+import subprocess
+import sys
+from typing import List
 
-kubectl describe nodes "${@}" | awk -v a=0 -v v=0 '{if ($1 == "Name:") {print "Node: ", $2}; if (a == 0 && $1 ~ /Namespace/) {a=1; v=1};  if($0 ~ /Allocated resources/) {v=0; a=0; print "\n"};  if (v==1) {print $0}; }'
+
+def get_kubectl_output(command: List[str]) -> str:
+    try:
+        return subprocess.check_output(command).decode()
+    except subprocess.CalledProcessError as e:
+        print(f"Error executing command: {' '.join(command)}\n{e}")
+        sys.exit(1)
+
+
+def parse_pods_on_nodes(output: str) -> None:
+    node_name = ""
+    print_line = False
+    for line in output.splitlines():
+        words = line.split()
+        if words and words[0] == "Name:":
+            node_name = words[1]
+            print(f"Node:  {node_name}")
+        elif print_line:
+            if "Allocated resources" in line:
+                print_line = False
+                print("\n")
+            else:
+                print(line)
+        elif "Namespace" in words:
+            print_line = True
+            print(line)
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="Get pods deployed on Kubernetes nodes."
+    )
+    parser.add_argument(
+        "nodes",
+        nargs="*",
+        help="List of nodes to show pods for. If omitted, all nodes are shown.",
+    )
+    parser.add_argument(
+        "--context", help="Specify the Kubernetes context to use", default=""
+    )
+    args = parser.parse_args()
+
+    context_arg = ["--context", args.context] if args.context else []
+    nodes_arg = args.nodes if args.nodes else []
+
+    kubectl_command = ["kubectl"] + context_arg + ["describe", "nodes"] + nodes_arg
+    output = get_kubectl_output(kubectl_command)
+    parse_pods_on_nodes(output)
+
+
+if __name__ == "__main__":
+    main()

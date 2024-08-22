@@ -1,0 +1,32 @@
+#!/bin/bash
+
+_kubectl_pods_on_nodes_completions() {
+    local cur prev words cword
+    _init_completion || return
+
+    # Define the CLI options available for completion
+    local options="--context --help"
+
+    # Check the current and previous words typed by the user
+    case "$prev" in
+        --context)
+            # If the previous word is --context, suggest Kubernetes contexts
+            COMPREPLY=( $(kubectl config get-contexts -o name | grep -E "^${cur}") )
+            return 0
+            ;;
+        *)
+            # If the current word is empty or starts with -, suggest options
+            if [[ ${cur} == -* || ${cur} == "" ]]; then
+                COMPREPLY=( $(compgen -W "${options}" -- "$cur") )
+                return 0
+            else
+                # If we are typing node names, suggest nodes
+                COMPREPLY=( $(kubectl get nodes --no-headers -o custom-columns=NAME:.metadata.name | grep -E "^${cur}") )
+                return 0
+            fi
+            ;;
+    esac
+}
+
+# Associate the completion function with your script
+complete -F _kubectl_pods_on_nodes_completions kubectl-pods-on-nodes

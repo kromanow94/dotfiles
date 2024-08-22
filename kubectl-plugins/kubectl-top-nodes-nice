@@ -1,15 +1,16 @@
 #!/usr/bin/env python3
 
 import subprocess
+import argparse
 from dataclasses import dataclass
 from datetime import datetime, timedelta
-from typing import Any, Dict, List, Union
+from typing import Dict, List, Union
 
 import yaml
 
 
 @dataclass
-class NodeStatus(object):
+class NodeStatus:
     name: str = None
     cpu_usage_cores: str = None
     cpu_usage_percent: float = None
@@ -17,32 +18,27 @@ class NodeStatus(object):
     memory_usage_percent: float = None
     age: str = None
     taints: List[Dict] = None
+    k8s_version: str = None
     status: str = None
+    version: str = None
 
     def taints_as_roles(self) -> str:
         return ",".join([taint["key"] for taint in self.taints])
 
 
-class NodeList(object):
+class NodeList:
     def __init__(self, items: Union[Dict[str, NodeStatus], None] = None) -> None:
-        self.items = items if items is not None else dict()
+        self.items = items if items is not None else {}
 
     def append(self, item: NodeStatus) -> None:
-        self.items.update({item.name: item})
+        self.items[item.name] = item
 
     def update(self, name, item: NodeStatus) -> None:
-        self.items[name] == item
-
-    def items(self):
-        for key, value in self.items():
-            yield key, value
-
-    def get(self, name: str, default: Any = None) -> NodeStatus:
-        return self.items.get(name, default)
+        self.items[name] = item
 
     def __iter__(self):
-        for v in self.items.values():
-            yield v
+        for node in self.items.values():
+            yield node
 
     def __str__(self) -> str:
         out_lines_values = [
@@ -50,9 +46,10 @@ class NodeList(object):
                 "NAME",
                 "STATUS",
                 "AGE",
+                "VERSION",
                 "CPU(cores)",
                 "CPU%",
-                "MEMORY(bytes)",
+                "MEMORY(Mi)",
                 "MEMORY%",
                 "TAINTS",
             ]
@@ -63,115 +60,130 @@ class NodeList(object):
                     node.name,
                     node.status,
                     node.age,
-                    node.cpu_usage_cores,
-                    node.cpu_usage_percent,
-                    node.memory_usage_bytes,
-                    node.memory_usage_percent,
+                    node.version,
+                    str(node.cpu_usage_cores),
+                    f"{node.cpu_usage_percent:.2f}%",
+                    convert_bytes_to_mi(bytes_value=node.memory_usage_bytes),
+                    f"{node.memory_usage_percent:.2f}%",
                     node.taints_as_roles(),
                 ]
             )
 
-        rows_count = len(out_lines_values)
-        column_count = len(out_lines_values[0])
-        columns_width = list()
+        columns_width = [
+            max(len(str(row[column_index])) for row in out_lines_values)
+            for column_index in range(len(out_lines_values[0]))
+        ]
 
-        for column_index in range(column_count):
-            column_max_width = max(
-                [
-                    len(out_lines_values[row_index][column_index])
-                    for row_index in range(rows_count)
-                ]
+        return "\n".join(
+            "   ".join(
+                f"{str(row[column_index]):<{columns_width[column_index]}}"
+                for column_index in range(len(row))
             )
-            columns_width.append(column_max_width)
-
-        return_value = str()
-        for row_index in range(rows_count):
-            out_line = "   ".join(
-                [
-                    f"{out_lines_values[row_index][column_index] :<{columns_width[column_index]}}"  # noqa: E501
-                    for column_index in range(column_count)
-                ]
-            )
-            return_value += f"{out_line}\n"
-        return_value = return_value[:-1]  # get rid of last newline
-        return return_value
-
-
-node_list = NodeList()
-
-top_nodes = (
-    subprocess.check_output(["kubectl", "top", "nodes", "--context", "uat-context"])
-    .decode()
-    .splitlines()[1:]
-)
-get_nodes = yaml.load(
-    subprocess.check_output(
-        ["kubectl", "get", "nodes", "-oyaml", "--context", "uat-context"]
-    ).decode(),
-    Loader=yaml.SafeLoader,
-)
-
-for top_node in top_nodes:
-    (
-        name,
-        cpu_usage_cores,
-        cpu_usage_percent,
-        memory_usage_bytes,
-        memory_usage_percent,
-    ) = top_node.split()
-    node_list.append(
-        NodeStatus(
-            name=name,
-            cpu_usage_cores=cpu_usage_cores,
-            cpu_usage_percent=cpu_usage_percent,
-            memory_usage_bytes=memory_usage_bytes,
-            memory_usage_percent=memory_usage_percent,
+            for row in out_lines_values
         )
-    )
 
-for node in get_nodes["items"]:
-    name = node["metadata"]["name"]
-    creation_timestamp = node["metadata"]["creationTimestamp"]
-    format_string = "%Y-%m-%dT%H:%M:%SZ"
-    creation_timestamp = datetime.strptime(creation_timestamp, format_string)
-    now = datetime.now()
-    age = now - creation_timestamp
-    delta = timedelta(seconds=age.seconds)
 
-    status = (
-        "Ready" if node["status"]["conditions"][-1]["status"] == "True" else "NotReady"
-    )
-
-    minutes = int(age.seconds / 60)
-    hours = int(minutes / 60)
-    minutes_rest = minutes - (hours * 60)
-    seconds_rest = age.seconds - (minutes * 60)
-    if age.days > 9:
-        age_str = f"{age.days}d"
-    elif age.days > 5:
-        age_str = f"{age.days}d"
-    elif age.days > 1:
-        age_str = f"{age.days}d{hours}h"
-    elif age.days > 0:
-        age_str = f"{age.days * 24 + hours}h"
-    elif hours > 8:
-        age_str = f"{hours}h"
-    elif hours > 2:
-        age_str = f"{hours}h{minutes_rest}m"
-    elif minutes > 3:
-        age_str = f"{minutes}m"
+def convert_memory_to_bytes(memory_str: str) -> int:
+    """Convert memory string from Mi/Gi to bytes."""
+    if memory_str.endswith("Mi"):
+        return int(float(memory_str.rstrip("Mi")) * 1024 * 1024)
+    elif memory_str.endswith("Gi"):
+        return int(float(memory_str.rstrip("Gi")) * 1024 * 1024 * 1024)
+    elif memory_str.endswith("Ki"):
+        return int(float(memory_str.rstrip("Ki")) * 1024)
     else:
-        age_str = f"{age.seconds}s"
+        raise ValueError(f"Unknown memory unit in {memory_str}")
 
+
+def convert_bytes_to_mi(bytes_value: int) -> str:
+    """Convert bytes to Mi (Mebibytes) and return as a string with 'Mi' suffix."""
+    mi_value = bytes_value / (1024 * 1024)
+    return f"{mi_value:.2f}".rstrip("0").rstrip(".") + "Mi"
+
+
+def format_age(age: timedelta) -> str:
+    if age.days > 0:
+        return f"{age.days}d"
+    hours, remainder = divmod(age.seconds, 3600)
+    if hours > 0:
+        return f"{hours}h"
+    minutes, seconds = divmod(remainder, 60)
+    if minutes > 0:
+        return f"{minutes}m"
+    return f"{seconds}s"
+
+
+def get_kubectl_output(command: List[str]) -> str:
     try:
-        taints = node["spec"]["taints"]
-    except KeyError:
-        taints = list()
+        return subprocess.check_output(command).decode()
+    except subprocess.CalledProcessError as e:
+        print(f"Error executing command: {' '.join(command)}\n{e}")
+        exit(1)
 
-    node_status = node_list.get(name)
-    node_status.age = age_str
-    node_status.taints = taints
-    node_status.status = status
-    node_list.update(name, node_status)
 
-print(node_list)
+def main():
+    parser = argparse.ArgumentParser(
+        description="Kubernetes Cluster Node Analysis Script"
+    )
+    parser.add_argument(
+        "--context", help="Specify the Kubernetes context to use", default=""
+    )
+    args = parser.parse_args()
+
+    context_arg = ["--context", args.context] if args.context else []
+
+    node_list = NodeList()
+
+    top_nodes = get_kubectl_output(
+        ["kubectl"] + context_arg + ["top", "nodes"]
+    ).splitlines()[1:]
+
+    get_nodes = yaml.safe_load(
+        get_kubectl_output(["kubectl"] + context_arg + ["get", "nodes", "-oyaml"])
+    )
+
+    for top_node in top_nodes:
+        (
+            name,
+            cpu_usage_cores,
+            cpu_usage_percent,
+            memory_usage_bytes,
+            memory_usage_percent,
+        ) = top_node.split()
+        node_list.append(
+            NodeStatus(
+                name=name,
+                cpu_usage_cores=cpu_usage_cores,
+                cpu_usage_percent=float(cpu_usage_percent.rstrip("%")),
+                memory_usage_bytes=convert_memory_to_bytes(memory_usage_bytes),
+                memory_usage_percent=float(memory_usage_percent.rstrip("%")),
+            )
+        )
+
+    for node in get_nodes["items"]:
+        name = node["metadata"]["name"]
+        creation_timestamp = node["metadata"]["creationTimestamp"]
+        creation_time = datetime.strptime(creation_timestamp, "%Y-%m-%dT%H:%M:%SZ")
+        now = datetime.now()
+        age = now - creation_time
+
+        status = (
+            "Ready"
+            if node["status"]["conditions"][-1]["status"] == "True"
+            else "NotReady"
+        )
+
+        taints = node.get("spec", {}).get("taints", [])
+
+        node_status = node_list.items[name]
+        node_status.age = format_age(age)
+        node_status.version = node["status"]["nodeInfo"]["kubeletVersion"]
+        node_status.taints = taints
+        node_status.status = status
+        node_list.update(name, node_status)
+
+    print(node_list)
+
+
+if __name__ == "__main__":
+    main()
