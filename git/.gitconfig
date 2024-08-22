@@ -70,7 +70,8 @@
 
   bra     = branch -vv
 
-  unstage = reset HEAD --
+  # unstage = reset HEAD --
+  unstage = restore --staged
   discard = checkout --
   coh     = checkout HEAD --
   com     = checkout master
