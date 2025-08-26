@@ -20,9 +20,12 @@ tar zxvf "${KREW}.tar.gz"
 ./"${KREW}" install krew
 set +x
 
+echo "Configuring kubectl completion"
+kubectl completion bash > ~/.bash_completion.d/kubectl
+
 echo "Updating ~/.bashrc"
+ln -s ~/.local/bin/kubectl ~/.local/bin/k
 grep -q "export.*krew.*" ~/.bashrc || echo "export PATH=\$PATH:~/.krew/bin" >> ~/.bashrc
-grep -q "alias k=kubectl" ~/.bashrc || echo "alias k=kubectl" >> ~/.bashrc
 grep -q "complete -F __start_kubectl k" ~/.bashrc || echo "complete -F __start_kubectl k" >> ~/.bashrc
 source ~/.bashrc
 
