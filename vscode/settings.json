@@ -1,4 +1,7 @@
 {
+    "terminal.integrated.shellIntegration.enabled": false,
+    "python.defaultInterpreterPath": "/usr/bin/python",
+    "python.terminal.activateEnvironment": false,
     "extensions.autoUpdate": false,
     "extensions.autoCheckUpdates": false,
     "files.autoSave": "afterDelay",
@@ -114,5 +117,31 @@
             "noItemText": "The project has no merge requests"
         }
     ],
-    "diffEditor.renderSideBySide": false
+    "diffEditor.renderSideBySide": false,
+    "terminal.integrated.enableMultiLinePasteWarning": false,
+    "vs-kubernetes": {
+        "vs-kubernetes.crd-code-completion": "disabled",
+        "vs-kubernetes.ignore-recommendations": true
+    },
+    "cSpell.userWords": [
+        "apac",
+        "argocd",
+        "dpngs",
+        "emea",
+        "helmchart",
+        "helmcharts",
+        "istio",
+        "kubeflow",
+        "latam",
+        "romanok",
+        "unallowed"
+    ],
+    "notebook.cellToolbarLocation": {
+        "default": "right",
+        "jupyter-notebook": "right"
+    },
+    "remote.autoForwardPortsSource": "hybrid",
+    "[python]": {
+        "editor.defaultFormatter": "mikoz.black-py"
+    }
 }
