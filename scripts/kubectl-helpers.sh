@@ -21,6 +21,7 @@ tar zxvf "${KREW}.tar.gz"
 set +x
 
 echo "Configuring kubectl completion"
+mkdir -p ~/.bash_completion.d
 kubectl completion bash > ~/.bash_completion.d/kubectl
 
 echo "Updating ~/.bashrc"
