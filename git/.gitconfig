@@ -3,9 +3,14 @@
 
 [include]
   path = ~/.gitconfig.local
+
 [includeIf "gitdir:~/Repos/work/"]
   path = ~/.gitconfig.work
+
 [includeIf "gitdir:~/work/"]
+  path = ~/.gitconfig.work
+
+[includeIf "gitdir:/workspaces/"]
   path = ~/.gitconfig.work
 
 [push]

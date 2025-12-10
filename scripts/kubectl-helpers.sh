@@ -31,11 +31,16 @@ kubectl completion bash > bash-completion/bash_completion.d/kubectl
 
 echo "Updating ~/.bashrc"
 ln -s ~/.local/bin/kubectl ~/.local/bin/k
-grep -q "export.*krew.*" ~/.bashrc || echo "export PATH=\$PATH:~/.krew/bin" >> ~/.bashrc
 grep -q "complete -F __start_kubectl k" ~/.bashrc || echo "complete -F __start_kubectl k" >> ~/.bashrc
-source ~/.bashrc
+
+cat <<'EOF' >> ~/.bashrc.d/999-kubectl-krew
+#!/usr/bin/env bash
+
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+EOF
+. ~/.bashrc.d/999-kubectl-krew
 
 echo "Installing plugins"
-kubectl krew install ctx
-kubectl krew install ns
-kubectl krew install view-serviceaccount-kubeconfig
+kubectl-krew install ctx
+kubectl-krew install ns
+kubectl-krew install view-serviceaccount-kubeconfig
