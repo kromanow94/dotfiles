@@ -71,6 +71,8 @@
             -%C(yellow)%d%Creset %s %Cgreen(%ar) %C(bold blue)<%an>%Creset' \
             --abbrev-commit --date=short --date-order -n30
 
+  find-common-commit = merge-base
+
   rem     = remote -v
 
   bra     = branch -vv
